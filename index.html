@@ -130,7 +130,6 @@
             display: flex;
             align-items: center;
             line-height: 1;
-            transition: background-color 0.2s;
             /* Added white-space: nowrap to prevent dates from wrapping */
             white-space: nowrap; 
         }
@@ -195,6 +194,7 @@
         /* Skills: Fixed max-height for scrolling */
         #skillsTabContent {
             max-height: 250px; /* Constrain height to force scrolling if content exceeds this */
+            padding-right: 1rem; /* Added back padding here to make space for scrollbar on desktop */
         }
 
         /* EXPERIENCE SECTION - NEW FIXED HEIGHT AND SCROLLING */
@@ -529,6 +529,154 @@
                 align-items: flex-end;
             }
         }
+        
+        /* --- MIND MAP STYLES FROM MIND MAP.HTML --- */
+        
+        /* Overriding the body background from mind map to use the modal's background for consistency */
+        #mindmap-container {
+            /* Removed background-color: #121212; to use modal background */
+            font-family: 'Inter', sans-serif;
+            color: #E0E0E0; 
+            min-height: 80vh; /* Adjusted to fit within modal content better */
+            padding: 0; /* Reduced padding here, let the modal content handle it */
+            display: flex; 
+            align-items: flex-start; 
+            justify-content: flex-start; 
+            width: fit-content;
+            overflow: visible; /* Let the map itself overflow the inner container */
+            margin: 0 auto; /* Center the map root */
+        }
+        
+        /* Reset Mind Map SVG position within its container */
+        #mindmap-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: visible;
+            z-index: 0; 
+        }
+        .connector-line {
+            fill: none;
+            stroke: #4B5563; /* Line color */
+            stroke-width: 3;
+            stroke-linecap: round;
+        }
+
+        /* --- Node Styling --- */
+        .node-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 5px 0; 
+            min-height: 40px; 
+        }
+        .node-content {
+            box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.4);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: 1px solid transparent; 
+            user-select: none;
+            flex-shrink: 0; 
+            font-weight: 500;
+        }
+        
+        /* Node Level Styling (Corporate Palette) */
+        .root-node {
+            background-color: #003366; /* Deep Navy */
+            color: white;
+            padding: 1.5rem 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 9999px; 
+            min-width: 150px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 51, 102, 0.5); 
+            z-index: 20; 
+        }
+
+        /* Level 1: Main Categories (Corporate Cyan) */
+        .level-1-node {
+            background-color: #00A8A8; /* Corporate Cyan */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            z-index: 15;
+        }
+
+        /* Level 2: Timeline/Focus (Muted Gold) */
+        .level-2-node {
+            background-color: #CC8800; /* Muted Gold/Yellow */
+            color: white;
+            padding: 0.6rem 1.3rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            z-index: 10;
+        }
+
+        /* Level 3: Company/Detail (Medium Gray) */
+        .level-3-node {
+            background-color: #4F555D; /* Medium Gray */
+            color: white;
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem; 
+            border-radius: 9999px;
+            z-index: 5;
+        }
+
+        /* Level 4: Designation/System Name (Dark Gray) */
+        .level-4-node {
+            background-color: #40464C; /* Darker Gray */
+            color: #D1D5DB; /* Lighter text */
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem; 
+            border-radius: 9999px;
+            border: 1px solid #6B7280;
+            z-index: 1;
+        }
+        
+        /* Level 5: Sub-Detail/Metric (Light Gray) */
+        .level-5-node {
+            background-color: #6B7280; 
+            color: #E0E0E0; 
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 9999px;
+            z-index: 0;
+        }
+
+        /* Common Node Enhancements */
+        .node-content:not(.root-node):hover {
+            transform: scale(1.03); 
+        }
+
+        /* --- LAYOUT ADJUSTMENTS FOR VERTICAL SIBLINGS / HORIZONTAL CHILDREN --- */
+        .children-wrapper {
+            display: flex;
+            flex-direction: column; /* CRITICAL CHANGE: Siblings stack vertically */
+            align-items: flex-start; /* Align children to the left */
+            padding-left: 2rem; 
+            transition: all 0.3s ease-in-out;
+            min-width: 0; 
+        }
+
+        /* Specific vertical spacing for stacked siblings */
+        .level-1-children, .level-2-children, .level-3-children, .level-4-children { 
+            gap: 0.75rem; 
+        }
+
+        /* Collapse icon styling */
+        .collapse-icon {
+            font-family: Arial, sans-serif;
+            font-size: 1.25rem;
+            line-height: 1;
+            transition: transform 0.2s;
+            transform-origin: center center;
+            padding-left: 0.5rem; 
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -690,7 +838,8 @@
         <section id="top-right-fabs" class="lg:absolute lg:top-[120px] lg:right-6 z-30 flex flex-col lg:flex-col items-center lg:items-start gap-3 mt-4 lg:mt-0">
              
             <!-- 1. Mind Map FAB (Green accent) - OPEN MODAL -->
-            <button onclick="document.getElementById('mindMapModal').style.display='block'" 
+            <!-- UPDATED onclick to use new function -->
+            <button onclick="window.openMindMapModal()" 
                     class="fab-icon mind-map-fab"
                     aria-label="Open Professional Profile Mind Map">
                 <!-- CUSTOM SVG for Mind Map (Matching User's Image) -->
@@ -706,7 +855,7 @@
             </button>
             
             <!-- 2. Media FAB (Blue accent) - OPEN MODAL -->
-            <button onclick="document.getElementById('mediaModal').style.display='block'" 
+            <button onclick="window.openMediaModal()" 
                     class="fab-icon media-fab"
                     aria-label="Open Social Media and Video Links">
                 <!-- Play button icon -->
@@ -1287,7 +1436,8 @@
     <!-- MEDIA MODAL (New popup for X and YouTube) -->
     <div id="mediaModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="media-modal-title">
         <div class="modal-content">
-            <span class="close-button" onclick="document.getElementById('mediaModal').style.display='none'" aria-label="Close media modal">&times;</span>
+            <!-- UPDATED onclick to use new function -->
+            <span class="close-button" onclick="window.closeMediaModal()" aria-label="Close media modal">&times;</span>
             <h2 id="media-modal-title" class="text-3xl font-bold section-header text-white mb-6">Digital Portfolio: Social & Video</h2>
             
             <div class="h-[90%] overflow-y-auto">
@@ -1310,8 +1460,8 @@
                         <div class="bg-[#1f2328] p-4 rounded-lg flex-grow min-h-0 border border-[#30363d]">
                             <!-- Responsive YouTube Embed Container (Placeholder) -->
                             <div class="responsive-iframe-container">
-                                <!-- Replace YOUR_VIDEO_ID with a specific video ID, e.g., for a Python finance video -->
-                                <iframe src="https://www.youtube.com/embed/g2Dq3f4R7yQ?rel=0" 
+                                <!-- MODIFIED: iframe now uses ID and has initial SRC removed. SRC will be set on open. -->
+                                <iframe id="youtubeIframe"
                                         frameborder="0" 
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                         allowfullscreen 
@@ -1328,23 +1478,22 @@
         </div>
     </div>
     
-    <!-- MIND MAP MODAL (New iFrame Modal) -->
+    <!-- MIND MAP MODAL (Integrated Mind Map HTML) -->
     <div id="mindMapModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="mindmap-modal-title">
         <div class="modal-content">
-            <span class="close-button" onclick="document.getElementById('mindMapModal').style.display='none'" aria-label="Close mind map modal">&times;</span>
+            <!-- UPDATED onclick to use new function -->
+            <span class="close-button" onclick="window.closeMindMapModal()" aria-label="Close mind map modal">&times;</span>
             <h2 id="mindmap-modal-title" class="text-3xl font-bold section-header text-white mb-6">Professional Profile: Mind Map</h2>
             
-            <!-- iFrame loads the Mind map.html file -->
-            <!-- Note: Setting height here ensures the iframe container has a known height in the modal -->
-            <div class="responsive-iframe-container" style="padding-top: 0; width: 100%; height: 80vh;">
-                <!-- CORRECTED SRC: Ensure correct file path -->
-                <iframe src="Mind map.html" 
-                        frameborder="0" 
-                        allowfullscreen 
-                        title="Interactive Mind Map of Professional Experience" 
-                        style="height: 100%; width: 100%; position: relative; margin-top: 0;">
-                </iframe>
+            <!-- INTEGRATED MIND MAP CONTENT HERE -->
+            <div id="mindmap-container" class="relative overflow-auto" style="min-height: 80vh; padding: 3rem 2rem;">
+                <!-- SVG for lines is positioned absolutely -->
+                <svg id="mindmap-svg" style="background-color: #121212;"></svg>
+                
+                <!-- The mind map structure starts here. Root acts as a single node container. -->
+                <div id="mindmap-root" class="relative z-10 flex flex-row items-center"></div>
             </div>
+            
             <p class="text-sm text-gray-400 mt-4">
                 This interactive mind map visualizes my professional journey, skills, and education in a structured, hierarchical format.
             </p>
@@ -1397,9 +1546,526 @@
             signInAnonymously(auth).catch(e => console.error("Firebase Auth Error:", e));
         }
 
+        // --- MIND MAP DATA ---
+        const mindMapData = {
+            id: 0, title: "Navneet Chaudhary", isRoot: true, expanded: true, nodeClass: 'root-node',
+            children: [
+                // --- EDUCATION & CERTIFICATIONS BRANCH (RECENT TO PAST) ---
+                {
+                    id: 1, title: "Education & Certifications", expanded: true, nodeClass: 'level-1-node', children: [
+                        // 1. MBA FM (2025 – 2026)
+                        { id: 14, title: "2025 – 2026", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 15, title: "MBA (Financial Management) | IGNOU (Planned)", nodeClass: 'level-3-node' }
+                        ]},
+                        // 2. NISM Research Analyst (June 2024)
+                        { id: 8, title: "June 2024", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 9, title: "Research Analyst | NISM", nodeClass: 'level-3-node' }
+                        ]},
+                        // 3. M.Com (2023 – 2024)
+                        { id: 6, title: "2023 – 2024", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 7, title: "M.Com | IGNOU", nodeClass: 'level-3-node' }
+                        ]},
+                        // 4. Financial Modeling (Aug 2023)
+                        { id: 12, title: "Aug 2023", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 13, title: "Financial Modeling | The Wall Street School", nodeClass: 'level-3-node' }
+                        ]},
+                        // 5. PGDIB (2021 – 2022)
+                        { id: 4, title: "2021 – 2022", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 5, title: "PGDIB | IGNOU", nodeClass: 'level-3-node' }
+                        ]},
+                        // 6. B.Com (2018 – 2020)
+                        { id: 2, title: "2018 – 2020", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 3, title: "B.Com | SOL DU", nodeClass: 'level-3-node' }
+                        ]},
+                        // 7. CA CPT (2018)
+                        { id: 10, title: "2018", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 11, title: "CA CPT | ICAI", nodeClass: 'level-3-node' }
+                        ]},
+                    ]
+                },
+                // --- EXPERIENCE BRANCH (RECENT TO PAST) ---
+                { 
+                    id: 100, title: "Experience", expanded: true, nodeClass: 'level-1-node', children: [
+                        
+                        // 1. Current Break (Sep '25 – Present) - Carer Break
+                        { id: 118, title: "Sep '25 – Present", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 119, title: "Carer Break", nodeClass: 'level-3-node' }
+                        ]},
+                        
+                        // 2. Oriana (Jun '25 – Sep '25)
+                        { id: 115, title: "Jun '25 – Sep '25", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 116, title: "Oriana Power Ltd", expanded: true, nodeClass: 'level-3-node', children: [
+                                { id: 117, title: "Asst. Manager F&A", nodeClass: 'level-4-node', children: [
+                                    { id: 205, title: "Handled financial closing.", nodeClass: 'level-5-node' }
+                                ]}
+                            ]}
+                        ]},
+                        
+                        // 3. Grew Energy (Dec '24 – Jun '25)
+                        { id: 112, title: "Dec '24 – Jun '25", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 113, title: "Grew Energy Pvt Ltd", expanded: true, nodeClass: 'level-3-node', children: [
+                                { id: 114, title: "Asst. Manager F&A", nodeClass: 'level-4-node', children: [
+                                    { id: 204, title: "Oversaw Capex management.", nodeClass: 'level-5-node' }
+                                ]}
+                            ]}
+                        ]},
+                        
+                        // 4. Carer Break (Sep '24 – Nov '24) - Bifurcated
+                        { id: 110, title: "Sep '24 – Nov '24", expanded: true, nodeClass: 'level-2-node', children: [
+                            { 
+                                id: 111, 
+                                title: "Carer Break", 
+                                expanded: true, 
+                                nodeClass: 'level-3-node',
+                                children: [
+                                    { id: 401, title: "Focus on Mother's Treatment", nodeClass: 'level-4-node' },
+                                    { id: 402, title: "Volunteer Work (Robinhood Army)", nodeClass: 'level-4-node' }
+                                ]
+                            }
+                        ]},
+                        
+                        // 5. Ozone (Feb '22 – Aug '24)
+                        { id: 107, title: "Feb '22 – Aug '24", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 108, title: "Ozone Pharmaceuticals Ltd.", expanded: true, nodeClass: 'level-3-node', children: [
+                                { id: 109, title: "Senior Executive F&A", nodeClass: 'level-4-node', children: [
+                                    { id: 203, title: "Managed P&L for a ₹20 Cr portfolio.", nodeClass: 'level-5-node' }
+                                ]}
+                            ]}
+                        ]},
+                        
+                        // 6. SMH (Feb '21 – Feb '22)
+                        { id: 104, title: "Feb '21 – Feb '22", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 105, title: "Shanti Mukand Hospital", expanded: true, nodeClass: 'level-3-node', children: [
+                                { id: 106, title: "Junior Executive F&A", nodeClass: 'level-4-node', children: [
+                                    { id: 202, title: "Handled daily accounting operations.", nodeClass: 'level-5-node' }
+                                ]}
+                            ]}
+                        ]},
+                        
+                        // 7. KGC (Feb '19 – Jan '21) - Oldest
+                        { id: 101, title: "Feb '19 – Jan '21", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 102, title: "Kumar Grover & Co.", expanded: true, nodeClass: 'level-3-node', children: [
+                                { id: 103, title: "Accounts Assistant", nodeClass: 'level-4-node', children: [
+                                    { id: 201, title: "Managed ledger posting and journal entries.", nodeClass: 'level-5-node' }
+                                ]}
+                            ]}
+                        ]},
+                    ]
+                },
+                // --- SKILLS BRANCH (Consolidated) ---
+                { 
+                    id: 300, title: "Skills", expanded: true, nodeClass: 'level-1-node', children: [
+                        // Tech & Automation
+                        { id: 301, title: "Tech & Automation", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 302, title: "Advanced MS Excel / VBA", nodeClass: 'level-3-node' },
+                            { id: 303, title: "Python (RPA, Data Analysis)", nodeClass: 'level-3-node' },
+                            // Bifurcated ERP
+                            { 
+                                id: 304, title: "ERP Systems", expanded: true, nodeClass: 'level-3-node', children: [
+                                    { id: 305, title: "SAP FICO/MM", nodeClass: 'level-4-node' },
+                                    { id: 306, title: "Tally", nodeClass: 'level-4-node' }
+                                ]
+                            },
+                        ]},
+                        // Finance & Compliance
+                        { id: 308, title: "Finance & Compliance", expanded: true, nodeClass: 'level-2-node', children: [
+                            { id: 309, title: "FP&A / MIS / Cost Control", nodeClass: 'level-3-node' },
+                            { id: 310, title: "Accounting & Financial Reporting (GAAP)", nodeClass: 'level-3-node' },
+                            { id: 311, title: "Statutory Taxation (GST, TDS, TCS)", nodeClass: 'level-3-node' },
+                            { id: 312, title: "Statutory & Stock Audit Management", nodeClass: 'level-3-node' },
+                        ]}
+                    ]
+                }
+            ]
+        };
+
+        // --- MIND MAP JS FUNCTIONS START ---
+        
+        // Global Mind Map variables
+        const mindMapRootElement = document.getElementById('mindmap-root');
+        const svgElement = document.getElementById('mindmap-svg');
+        let animationFrameId = null;
+
+        /**
+         * Recursively sets the 'expanded' flag to false for all non-root nodes.
+         */
+        window.collapseAllNodes = function(node) {
+            if (node && 'expanded' in node) {
+                // Only collapse if it's not the root node (id: 0)
+                if (node.id !== 0) {
+                    node.expanded = false;
+                }
+            }
+            if (node && node.children) {
+                node.children.forEach(child => window.collapseAllNodes(child));
+            }
+        }
+        
+        // Ensure initial data state is collapsed, except for root
+        window.collapseAllNodes(mindMapData);
+
+        // --- UTILITY FUNCTIONS ---
+        window.findNodeById = function(current, id) {
+            if (current.id === id) return current;
+            if (current.children) {
+                for (const child of current.children) {
+                    const found = window.findNodeById(child, id);
+                    if (found) return found;
+                }
+            }
+            return null;
+        }
+        
+        window.debounce = function(func, delay) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        // --- RENDERING & LINE DRAWING (The Mind Map Logic) ---
+
+        /**
+         * Renders a single node and recursively its children, laying them out horizontally.
+         */
+        window.renderNode = function(node, parentElement) {
+            const nodeContainer = document.createElement('div');
+            nodeContainer.classList.add('node-container', 'flex', 'flex-row', 'items-center', 'relative');
+            nodeContainer.dataset.nodeId = node.id;
+            nodeContainer.dataset.parentId = node.parentId; 
+
+            // Create Node Content (The box)
+            const content = document.createElement('div');
+            // Accessibility & Focus
+            content.setAttribute('tabindex', '0');
+            content.setAttribute('role', node.children && node.children.length > 0 ? 'button' : 'listitem');
+
+            let nodeClasses = ['node-content', 'inline-flex', 'items-center', 'justify-center', 'select-none', 'whitespace-nowrap', 'transition', 'duration-150', 'hover:shadow-xl'];
+            
+            // Assign specific class based on level
+            if (node.isRoot) {
+                nodeClasses.push('root-node');
+            } else if (node.nodeClass === 'level-1-node') {
+                nodeClasses.push('level-1-node');
+            } else if (node.nodeClass === 'level-2-node') {
+                nodeClasses.push('level-2-node');
+            } else if (node.nodeClass === 'level-3-node') {
+                nodeClasses.push('level-3-node');
+            } else if (node.nodeClass === 'level-4-node') {
+                nodeClasses.push('level-4-node');
+            } else if (node.nodeClass === 'level-5-node') {
+                nodeClasses.push('level-5-node');
+            }
+            
+            content.classList.add(...nodeClasses);
+            content.innerHTML = `<span>${node.title.replace('\n', '<br>')}</span>`;
+
+            nodeContainer.appendChild(content);
+
+            // Add Collapsible Icon and Logic if node has children
+            if (node.children && node.children.length > 0) {
+                const icon = document.createElement('span');
+                icon.classList.add('collapse-icon', 'text-white/80', 'font-bold');
+                icon.innerHTML = node.expanded ? '&#9660;' : '&#9654;'; // ▼ for expanded, ► for collapsed
+                
+                content.setAttribute('aria-expanded', node.expanded);
+
+                content.appendChild(icon);
+                
+                const toggle = () => {
+                    // Use closure to capture the node and icon
+                    window.toggleCollapse(node, icon);
+                };
+
+                // Add event listeners for both click and keyboard (Enter/Space)
+                content.addEventListener('click', toggle);
+                content.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggle();
+                    }
+                });
+            }
+
+            parentElement.appendChild(nodeContainer);
+
+            // Create Children Wrapper (to hold sub-nodes vertically)
+            if (node.children && node.children.length > 0) {
+                const childrenWrapper = document.createElement('div');
+                childrenWrapper.classList.add('children-wrapper');
+                childrenWrapper.id = `children-of-${node.id}`;
+                
+                // Add specific spacing classes for vertical siblings
+                if (node.nodeClass === 'root-node') childrenWrapper.classList.add('level-1-children');
+                else if (node.nodeClass === 'level-1-node') childrenWrapper.classList.add('level-2-children');
+                else if (node.nodeClass === 'level-2-node') childrenWrapper.classList.add('level-3-children');
+                else if (node.nodeClass === 'level-3-node') childrenWrapper.classList.add('level-4-children');
+                else if (node.nodeClass === 'level-4-node') childrenWrapper.classList.add('level-5-children');
+
+
+                if (!node.expanded) {
+                    childrenWrapper.classList.add('hidden'); 
+                }
+
+                nodeContainer.appendChild(childrenWrapper); 
+
+                // Recursive call for children
+                node.children.forEach(child => {
+                    child.parentId = node.id;
+                    window.renderNode(child, childrenWrapper);
+                });
+            }
+        }
+
+
+        /**
+         * Toggles the expanded state of a node and re-draws the map.
+         */
+        window.toggleCollapse = function(node, icon) {
+            node.expanded = !node.expanded;
+            
+            const childrenWrapper = document.getElementById(`children-of-${node.id}`);
+            
+            if (childrenWrapper) {
+                if (node.expanded) {
+                    childrenWrapper.classList.remove('hidden');
+                    icon.innerHTML = '&#9660;'; // ▼
+                } else {
+                    childrenWrapper.classList.add('hidden');
+                    icon.innerHTML = '&#9654;'; // ►
+                }
+            }
+
+            const nodeContent = document.querySelector(`[data-node-id="${node.id}"] .node-content`);
+            if (nodeContent) {
+                   nodeContent.setAttribute('aria-expanded', node.expanded);
+            }
+            
+            // Debounce the line drawing
+            window.debouncedDrawLines(); 
+        }
+
+        /**
+         * Draws the Tree Connector.
+         */
+        window.drawLines = function() {
+            if (!svgElement) return; // Guard in case the element isn't ready
+            svgElement.innerHTML = ''; 
+            
+            const container = document.getElementById('mindmap-container');
+            if (!container) return; // Guard for container
+            
+            const containerRect = container.getBoundingClientRect();
+            
+            // Find map bounds
+            let mapMinX = Infinity;
+            let mapMinY = Infinity;
+            let mapMaxX = 0;
+            let mapMaxY = 0;
+
+            // Get all node rectangles to determine the total size of the map content
+            document.querySelectorAll('#mindMapModal .node-content').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                mapMinX = Math.min(mapMinX, rect.left);
+                mapMinY = Math.min(mapMinY, rect.top);
+                mapMaxX = Math.max(mapMaxX, rect.right);
+                mapMaxY = Math.max(mapMaxY, rect.bottom);
+            });
+
+            // If no nodes are visible, stop drawing
+            if (mapMinX === Infinity) return;
+
+
+            // Adjust SVG size to cover all content plus padding/scroll
+            const scrollX = container.scrollLeft;
+            const scrollY = container.scrollTop;
+            
+            // Calculate size based on content and scroll
+            const svgWidth = (mapMaxX - containerRect.left) + scrollX + 50; 
+            const svgHeight = (mapMaxY - containerRect.top) + scrollY + 50;
+            
+            svgElement.setAttribute('width', svgWidth + 'px');
+            svgElement.setAttribute('height', svgHeight + 'px');
+            
+            const parentNodes = document.querySelectorAll('#mindMapModal .node-container'); 
+
+            parentNodes.forEach(parentNodeContainer => {
+                const parentId = parseInt(parentNodeContainer.dataset.nodeId);
+                const parentNodeData = window.findNodeById(mindMapData, parentId);
+                
+                if (parentNodeData && parentNodeData.expanded && parentNodeData.children) {
+                    const childrenWrapper = document.getElementById(`children-of-${parentId}`);
+                    if (!childrenWrapper || childrenWrapper.classList.contains('hidden')) return;
+
+                    const parentContent = parentNodeContainer.querySelector('.node-content');
+                    if (!parentContent) return;
+
+                    const parentRect = parentContent.getBoundingClientRect();
+                    
+                    // --- 1. Calculate Parent Connection Point (Relative to SVG origin) ---
+                    const startX = parentRect.right - containerRect.left + scrollX;
+                    const startY = parentRect.top - containerRect.top + scrollY + parentRect.height / 2;
+                    
+                    // --- 2. Calculate Children Stack Bounds ---
+                    const visibleChildren = parentNodeData.children.map(child => {
+                        const childContainer = document.querySelector(`[data-node-id="${child.id}"]`);
+                        if (childContainer && childContainer.offsetParent !== null && !childContainer.closest('.hidden')) {
+                            const childContent = childContainer.querySelector('.node-content');
+                            if (childContent) {
+                                const rect = childContent.getBoundingClientRect();
+                                return {
+                                    rect: rect,
+                                    // Calculate relative to SVG origin (taking container scroll into account)
+                                    x: rect.left - containerRect.left + scrollX, 
+                                    y: rect.top - containerRect.top + scrollY + rect.height / 2 
+                                };
+                            }
+                        }
+                        return null;
+                    }).filter(c => c !== null);
+
+                    if (visibleChildren.length === 0) return;
+
+                    // The Anchor Point (Vertical Spine Position)
+                    const anchorX = startX + 30; 
+                    
+                    const firstChildY = visibleChildren[0].y;
+                    const lastChildY = visibleChildren[visibleChildren.length - 1].y;
+
+                    // --- 3. Draw Main Connector (Horizontal + Vertical Spine) ---
+                    const mainPath = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+                    
+                    const spinePath = `M ${startX} ${startY} 
+                                       H ${anchorX} 
+                                       M ${anchorX} ${firstChildY} 
+                                       V ${lastChildY}`;
+                                       
+                    mainPath.setAttribute('d', spinePath);
+                    mainPath.classList.add('connector-line');
+                    svgElement.appendChild(mainPath);
+
+                    // --- 4. Draw Spokes to Each Child ---
+                    visibleChildren.forEach(child => {
+                        const spokePath = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+                        
+                        const dPath = `M ${anchorX} ${child.y} 
+                                       H ${child.x}`;
+                                       
+                        spokePath.setAttribute('d', dPath);
+                        spokePath.classList.add('connector-line');
+                        svgElement.appendChild(spokePath);
+                    });
+                }
+            });
+        }
+        
+        // Debounced version of drawLines for performance stabilization
+        window.debouncedDrawLines = window.debounce(window.drawLines, 50);
+
+        /**
+         * Cleans up the mind map by removing lines and listeners.
+         */
+        window.stopLineDrawing = function() {
+            if (svgElement) svgElement.innerHTML = '';
+            const container = document.getElementById('mindmap-container');
+            if (container) {
+                 container.removeEventListener('scroll', window.debouncedDrawLines);
+            }
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        }
+
+        /**
+         * Main initialization function
+         */
+        window.initializeMindMap = function() {
+            if (!mindMapRootElement) return;
+
+            // Clear and re-render the map structure
+            mindMapRootElement.innerHTML = ''; 
+            
+            // Re-collapse all nodes (to ensure it resets if it was expanded)
+            window.collapseAllNodes(mindMapData);
+
+            const rootContainer = document.createElement('div');
+            rootContainer.classList.add('flex', 'flex-row', 'items-center');
+            
+            // 1. Create the Root Node Content
+            const rootContentContainer = document.createElement('div');
+            rootContentContainer.classList.add('node-container', 'flex', 'flex-row', 'items-center', 'relative');
+            rootContentContainer.dataset.nodeId = mindMapData.id;
+            
+            const rootContent = document.createElement('div');
+            rootContent.classList.add('node-content', 'root-node', 'inline-flex', 'items-center', 'justify-center');
+            rootContent.innerHTML = `<span>${mindMapData.title.replace('\n', '<br>')}</span>`; 
+            rootContentContainer.appendChild(rootContent);
+            
+            mindMapRootElement.appendChild(rootContentContainer);
+
+            // 2. Render Children (Level 1 branches) into a wrapper that is right of the root node
+            const childrenWrapper = document.createElement('div');
+            childrenWrapper.classList.add('children-wrapper', 'level-0-children'); 
+            childrenWrapper.id = `children-of-${mindMapData.id}`;
+            childrenWrapper.style.gap = '2.5rem'; 
+
+            mindMapData.children.forEach(child => {
+                child.parentId = mindMapData.id;
+                window.renderNode(child, childrenWrapper);
+            });
+            
+            rootContentContainer.appendChild(childrenWrapper);
+
+            // Set up scroll listener for line drawing 
+            document.getElementById('mindmap-container').addEventListener('scroll', window.debouncedDrawLines);
+
+            // Initial draw must be wrapped in requestAnimationFrame to wait for DOM layout
+            requestAnimationFrame(() => requestAnimationFrame(window.debouncedDrawLines)); 
+        }
+
         // --- CORE APPLICATION LOGIC (Moved and combined from previous script block) ---
         
-        // --- ACHIEVEMENT TAB LOGIC ---
+        // --- MODAL CONTROL LOGIC (UPDATED for Mind Map integration) ---
+        // NEW CODE: This is the full playlist embed URL from your provided iframe.
+        // I'm adding &autoplay=1 to the list of parameters.
+        const YOUTUBE_PLAYLIST_URL = `https://www.youtube.com/embed/videoseries?si=9mHBVcTfsvRmGglI&list=PLEfUln3m0PdhgiQzVE2GM8cwd8WqyfWw2&autoplay=1`;
+        
+        // Function to open media modal and start video
+        window.openMediaModal = function() {
+            document.getElementById('mediaModal').style.display = 'block';
+            const youtubeIframe = document.getElementById('youtubeIframe');
+            // Set the src to the NEW PLAYLIST URL to enable playback when modal is opened
+            if (youtubeIframe) {
+                youtubeIframe.src = YOUTUBE_PLAYLIST_URL;
+            }
+        }
+
+        // Function to close media modal and stop video
+        window.closeMediaModal = function() {
+            document.getElementById('mediaModal').style.display = 'none';
+            const youtubeIframe = document.getElementById('youtubeIframe');
+            // Remove the src to stop video playback in the background
+            if (youtubeIframe) {
+                youtubeIframe.src = '';
+            }
+        }
+        
+        // Mind Map Modal Control (Now initializes the integrated map)
+        window.openMindMapModal = function() {
+            document.getElementById('mindMapModal').style.display = 'block';
+            // IMPORTANT: Initialize and render the mind map now that the modal is visible
+            window.initializeMindMap();
+        }
+
+        // Function to close mind map modal and stop line drawing/listeners
+        window.closeMindMapModal = function() {
+            document.getElementById('mindMapModal').style.display = 'none';
+            window.stopLineDrawing(); // Clean up listeners and SVG lines
+        }
+        
+        // --- ACHIEVEMENT TAB LOGIC (UNCHANGED) ---
         window.openTab = function(evt, tabName) {
             const tabcontent = document.getElementsByClassName("tab-content");
             for (let i = 0; i < tabcontent.length; i++) {
@@ -1423,7 +2089,7 @@
             document.getElementById('achievementsContainer').scrollTop = 0;
         }
         
-        // --- SKILLS TAB LOGIC ---
+        // --- SKILLS TAB LOGIC (UNCHANGED) ---
         window.openSkillsTab = function(evt, tabName) {
             const tabContents = document.getElementsByClassName("skills-tab-content");
             for (let i = 0; i < tabContents.length; i++) {
@@ -1447,7 +2113,7 @@
             document.getElementById('skillsTabContent').scrollTop = 0;
         }
         
-        // --- REASON FOR LEAVE LOGIC ---
+        // --- REASON FOR LEAVE LOGIC (UNCHANGED) ---
         window.toggleReason = function(button, reasonId) {
             const reasonElement = document.getElementById(reasonId);
             const iconElement = button.querySelector('span');
@@ -1462,7 +2128,7 @@
             }
         }
 
-        // --- CERTIFICATION DATA AND SORTING & FILTERING LOGIC ---
+        // --- CERTIFICATION DATA AND SORTING & FILTERING LOGIC (UNCHANGED) ---
         var certifications = [
             // Core Certs (isCoreCert: true)
             { title: 'CA CPT', issuer: 'ICAI', date: 20180101, displayDate: '2018', relevance: 1, priority: 1, domain: 'Finance & Accounts', score: '71.5%', isCoreCert: true }, 
@@ -1591,7 +2257,7 @@
             }).join('');
         }
         
-        // --- PITCH INTEGRATION LOGIC ---
+        // --- PITCH INTEGRATION LOGIC (UNCHANGED) ---
         // 1. API Key updated with user's provided key
         const apiKey = "AIzaSyA7mpJyL21zh1vfxlodZthXR7wSh5os_Pc"; 
         const TTS_MODEL = 'gemini-2.5-flash-preview-tts';
@@ -1857,7 +2523,7 @@
             try {
                 const pitchText = FINAL_ELEVATOR_PITCH;
                 // Pitch text is HTML for formatting the bold title
-                // We strip the instruction "Say in a confident, authoritative..." for display
+                // We strip the instruction "Say in a confident, authoritative, and executive tone, with a slight Indian accent:" for display
                 const instructionPrefix = 'Say in a confident, authoritative, and executive tone, with a slight Indian accent:';
                 const displayPitchText = pitchText.startsWith(instructionPrefix) 
                                          ? pitchText.substring(instructionPrefix.length).trim() 
@@ -1911,9 +2577,6 @@
             togglePitchContent(false); // Ensure pitch is collapsed initially
         }
         
-        // --- CHART.JS INITIALIZATION ---
-        // Removed window.initializeChart function
-        
         // --- Run Initialization on Load ---
         window.onload = function() {
             // Existing profile logic initialization
@@ -1924,10 +2587,12 @@
             var achievementButton = document.querySelector('.flex:has(button[onclick^="window.openTab"]) .tab-button:first-child');
             window.openTab({ currentTarget: achievementButton }, 'professional');
             window.openSkillsTab({ currentTarget: document.querySelector('.skills-tab-button:first-child') }, 'functionalSkills');
-            // Removed initialization call for chart: window.initializeChart();
             
-            // NEW Pitch Init
+            // Pitch Init
             window.initZenith();
+            
+            // Set up line drawing for resize outside the modal's lifecycle
+            window.addEventListener('resize', window.debouncedDrawLines);
         };
     </script>
 </body>
