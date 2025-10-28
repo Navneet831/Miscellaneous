@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Focus Timer</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Define the core dimensions and look for the progress ring */
+        .progress-ring__circle {
+            /* Longer transition for a smooth, continuous time-based movement */
+            transition: stroke-dashoffset 0.9s linear;
+            transform: rotate(-90deg); /* Start from the top (12 o'clock) */
+            transform-origin: 50% 50%; /* Rotate around the center */
+            cursor: pointer; /* Indicate interactivity */
+        }
+        
+        /* Base button styling for the primary dynamic button */
+        .primary-control-btn {
+            /* Base styles for the button */
+            @apply flex items-center justify-center font-bold rounded-full shadow-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-opacity-75;
+        }
+
+        /* Styling for the single, large control button */
+        .single-control-mode {
+             @apply w-20 h-20 p-0 text-xl;
+        }
+
+        /* SVG icon sizing */
+        .primary-control-btn svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        
+        /* The container for the SVG must also have a pointer cursor for dragging */
+        #progress-container {
+             cursor: grab;
+        }
+        
+        /* Override Tailwind's default drag behavior for interactivity */
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Container Card (Dark, Rounded, Shadowed) -->
+    <div class="w-full max-w-sm bg-gray-800 p-8 rounded-xl shadow-2xl transition-all duration-300">
+
+        <h1 class="text-xl font-bold text-white mb-6 border-b border-gray-700 pb-3" id="timer-title">
+            Interactive Focus Timer
+        </h1>
+
+        <!-- Circular Progress Bar Container (This is the interactive element for seeking) -->
+        <div class="flex flex-col items-center justify-center mb-8">
+            <div id="progress-container" class="relative w-40 h-40">
+                <!-- SVG element for the circular bar -->
+                <svg class="w-full h-full" viewBox="0 0 130 130">
+                    <!-- Background Track (Gray) -->
+                    <circle
+                        class="text-gray-700"
+                        stroke-width="12"
+                        stroke="currentColor"
+                        fill="transparent"
+                        r="60"
+                        cx="65"
+                        cy="65"
+                    />
+                    <!-- Foreground Progress (Teal/Corporate Color) -->
+                    <circle
+                        id="progress-circle"
+                        class="progress-ring__circle text-teal-400"
+                        stroke-width="12"
+                        stroke-dasharray="377"
+                        stroke-dashoffset="377"
+                        stroke-linecap="round"
+                        stroke="currentColor"
+                        fill="transparent"
+                        r="60"
+                        cx="65"
+                        cy="65"
+                    />
+                </svg>
+
+                <!-- Time Remaining Text Overlay -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <span id="time-display" class="text-3xl font-extrabold text-white">1:00</span>
+                    <span id="timer-status" class="text-xs text-gray-400 mt-1">Ready</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timer Controls: Single Dynamic Button (Center aligned) -->
+        <div class="mt-8 flex justify-center">
+            <button
+                id="primary-control-button"
+                class="primary-control-btn single-control-mode"
+            >
+                <!-- Initial icon content set by JS -->
+            </button>
+        </div>
+
+        <!-- Suggest Feature Link -->
+        <div class="mt-6 pt-4 border-t border-gray-700">
+            <a href="#" class="text-teal-400 hover:text-teal-300 text-xs font-medium transition-colors duration-200">
+                Suggest a Feature
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const progressCircle = document.getElementById('progress-circle');
+        const timeDisplay = document.getElementById('time-display');
+        const timerStatus = document.getElementById('timer-status');
+        const controlButton = document.getElementById('primary-control-button'); // Single dynamic button
+        const svgContainer = document.getElementById('progress-container');
+
+        // Timer Constants and State
+        const TOTAL_SECONDS = 60;
+        const CIRCUMFERENCE = 377; // 2 * PI * R where R=60
+        progressCircle.style.strokeDasharray = CIRCUMFERENCE;
+
+        let timeRemaining = TOTAL_SECONDS;
+        let timerInterval = null;
+        let isDragging = false;
+        let wasRunningBeforeDrag = false;
+
+        // --- SVG Icon Definitions (Simplified for maximum rendering reliability) ---
+        // Play Icon (used for Start/Resume/Finished)
+        const playIconSVG = `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
+        // Pause Icon (used when running)
+        const pauseIconSVG = `<svg viewBox="0 0 24 24" fill="currentColor"><rect width="6" height="16" x="5" y="4"></rect><rect width="6" height="16" x="13" y="4"></rect></svg>`;
+
+        /**
+         * Clears all dynamic width/color classes from the control button.
+         */
+        function clearControlClasses() {
+            controlButton.classList.remove(
+                'bg-teal-500', 'hover:bg-teal-600', 'focus:ring-teal-500/50', 
+                'bg-red-600', 'hover:bg-red-700', 'focus:ring-red-600/50', 
+                'bg-green-500', 'hover:bg-green-600', 'focus:ring-green-500/50'
+            );
+        }
+
+        /**
+         * Calculates the angle (in degrees) from the center of the circle to the event coordinates.
+         * @param {Event} event - Mouse or Touch event
+         * @returns {number} Angle in degrees (0 to 360)
+         */
+        function getAngle(event) {
+            const rect = svgContainer.getBoundingClientRect();
+            // Use touch data if available, otherwise use mouse data
+            const clientX = event.clientX || (event.touches ? event.touches[0].clientX : 0);
+            const clientY = event.clientY || (event.touches ? event.touches[0].clientY : 0);
+
+            // Center coordinates relative to the viewport
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+
+            // Delta X and Y relative to the center
+            const dx = clientX - cx;
+            const dy = clientY - cy;
+
+            // Calculate angle in radians, then convert to degrees
+            let angleRad = Math.atan2(dy, dx);
+            let angleDeg = angleRad * (180 / Math.PI);
+
+            // Normalize angle: 0 degrees is at the right (3 o'clock). Shift to 0 at the top (12 o'clock).
+            angleDeg += 90; 
+            if (angleDeg < 0) {
+                angleDeg += 360; 
+            }
+
+            return angleDeg;
+        }
+
+        /**
+         * Updates timer based on angle derived from user interaction.
+         * @param {number} angleDeg - Angle in degrees (0 to 360)
+         */
+        function updateTimerFromAngle(angleDeg) {
+            
+            // Clockwise movement (angle increasing from 0 to 360) now increases time (0s to 60s).
+            const timeAsProportion = angleDeg / 360;
+            let newTimeRemaining = Math.round(timeAsProportion * TOTAL_SECONDS);
+            
+            // Ensure time is within bounds
+            newTimeRemaining = Math.max(0, Math.min(TOTAL_SECONDS, newTimeRemaining));
+            
+            timeRemaining = newTimeRemaining;
+            updateProgress();
+            
+            // If dragging sets time to 0, visually update the button state
+            if (timeRemaining === 0) {
+                updateControlState();
+            }
+        }
+
+        /**
+         * Handles the start of drag/seek interaction (mousedown/touchstart).
+         */
+        function handleDragStart(event) {
+            // Prevent scrolling/default behavior, especially on touch devices
+            if (event.cancelable) {
+                event.preventDefault(); 
+            }
+            
+            isDragging = true;
+            
+            // Pause the timer if it was running
+            wasRunningBeforeDrag = timerInterval !== null;
+            if (wasRunningBeforeDrag) {
+                pauseTimer(false); // Pause without immediately updating control state
+            }
+            
+            // Set status to indicate seeking
+            timerStatus.textContent = 'Seeking...';
+            
+            // Remove smooth transition during drag for immediate feedback
+            progressCircle.style.transition = 'none';
+            
+            // Add document-level listeners for drag movement and end
+            document.addEventListener('mousemove', handleDrag);
+            document.addEventListener('mouseup', handleDragEnd);
+            document.addEventListener('touchmove', handleDrag, { passive: false });
+            document.addEventListener('touchend', handleDragEnd);
+
+            handleDrag(event); // Process initial click position
+        }
+
+        /**
+         * Handles the movement during drag/seek interaction (mousemove/touchmove).
+         */
+        function handleDrag(event) {
+            if (!isDragging) return;
+            
+            // Prevent default touch movement like scrolling
+            if (event.cancelable) {
+                event.preventDefault();
+            }
+
+            const clientEvent = event.touches ? event.touches[0] : event;
+            if (!clientEvent) return;
+
+            const angle = getAngle(clientEvent);
+            updateTimerFromAngle(angle);
+        }
+
+        /**
+         * Handles the end of drag/seek interaction (mouseup/touchend).
+         */
+        function handleDragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            // Restore smooth transition
+            progressCircle.style.transition = 'stroke-dashoffset 0.9s linear';
+            
+            // Resume the timer if it was running before drag started and time is left
+            if (wasRunningBeforeDrag && timeRemaining > 0) {
+                startTimer();
+            } else {
+                updateControlState(); // Update status and button after seeking
+            }
+
+            // Remove document-level listeners
+            document.removeEventListener('mousemove', handleDrag);
+            document.removeEventListener('mouseup', handleDragEnd);
+            document.removeEventListener('touchmove', handleDrag, { passive: false });
+            document.removeEventListener('touchend', handleDragEnd);
+        }
+
+        /**
+         * Updates the circular progress bar and time display, including color changes.
+         */
+        function updateProgress() {
+            const percent = (timeRemaining / TOTAL_SECONDS) * 100;
+            
+            // The offset is calculated to represent time remaining (100% full at 60s, 0% full at 0s)
+            const offset = CIRCUMFERENCE - (percent / 100) * CIRCUMFERENCE;
+            progressCircle.style.strokeDashoffset = offset;
+
+            // Update the time display (format as M:SS)
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timeDisplay.textContent = formattedTime;
+
+            // --- Color Logic for Progress Bar and Time Text ---
+            const isRunning = timerInterval !== null;
+            
+            // Clear existing time/progress colors first
+            progressCircle.classList.remove('text-red-500', 'text-green-400', 'text-teal-400');
+            timeDisplay.classList.remove('text-red-500', 'text-green-400', 'text-white');
+
+            if (timeRemaining <= 10 && timeRemaining > 0 && isRunning) {
+                // Warning color for the last 10 seconds while running
+                progressCircle.classList.add('text-red-500');
+                timeDisplay.classList.add('text-red-500');
+            } else if (timeRemaining > 0) {
+                // Default color for running, paused, or ready
+                progressCircle.classList.add('text-teal-400');
+                timeDisplay.classList.add('text-white');
+            }
+            // If timeRemaining === 0, colors will be set in updateControlState (Finished state)
+        }
+
+        /**
+         * Manages the icon and color of the single control button based on timer state.
+         */
+        function updateControlState() {
+            const isRunning = timerInterval !== null;
+            const isFinished = timeRemaining === 0;
+
+            // Reset all dynamic button styles and ensure it's always enabled
+            clearControlClasses();
+            controlButton.removeAttribute('disabled');
+            
+            if (isRunning) {
+                // RUNNING State: Display Pause icon (⏸️) and Red button (suggests stopping the focus flow)
+                controlButton.innerHTML = pauseIconSVG;
+                controlButton.classList.add('bg-red-600', 'hover:bg-red-700', 'focus:ring-red-600/50');
+                timerStatus.textContent = 'Running...';
+            } else if (isFinished) {
+                // FINISHED State: Display Play icon (▶️) and Green button (suggests resetting and starting new)
+                controlButton.innerHTML = playIconSVG;
+                controlButton.classList.add('bg-green-500', 'hover:bg-green-600', 'focus:ring-green-500/50');
+                timerStatus.textContent = 'TIME UP!';
+                
+                // Final success color for ring and text
+                progressCircle.classList.remove('text-red-500', 'text-teal-400');
+                progressCircle.classList.add('text-green-400');
+                timeDisplay.classList.remove('text-red-500', 'text-white');
+                timeDisplay.classList.add('text-green-400');
+            } else { 
+                // PAUSED or READY State: Display Play icon (▶️) and Teal button (suggests starting or resuming)
+                controlButton.innerHTML = playIconSVG;
+                controlButton.classList.add('bg-teal-500', 'hover:bg-teal-600', 'focus:ring-teal-500/50');
+                timerStatus.textContent = (timeRemaining === TOTAL_SECONDS) ? 'Ready' : 'Paused';
+
+                // Ensure default colors for non-finished states
+                updateProgress(); 
+            }
+        }
+
+        /**
+         * Resets the timer to its initial state (1:00).
+         */
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            timeRemaining = TOTAL_SECONDS;
+            updateControlState();
+            updateProgress(); // Ensure progress bar is full
+        }
+
+        /**
+         * Stops the countdown and puts the timer in a Paused state.
+         * @param {boolean} [updateControls=true] - Whether to immediately update the button/status UI.
+         */
+        function pauseTimer(updateControls = true) {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                if (updateControls) {
+                    updateControlState(); // Triggers Paused state logic
+                }
+            }
+        }
+
+        /**
+         * Starts or Resumes the countdown interval.
+         */
+        function startTimer() {
+            if (timerInterval !== null) {
+                return; // Already running
+            }
+
+            // If starting from 0 (finished), reset first
+            if (timeRemaining === 0) {
+                timeRemaining = TOTAL_SECONDS;
+            }
+
+            // FIX: Set the interval first so timerInterval is not null when updateControlState runs
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateProgress();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    timeRemaining = 0; // Ensure it stops exactly at 0
+                    updateControlState(); // Triggers the Finished state logic
+                }
+            }, 1000); // Decrement every 1000ms (1 second)
+            
+            // Now, call updateControlState, which will correctly determine isRunning is true
+            updateControlState(); 
+        }
+
+        // --- Event Listeners ---
+        
+        // 1. Single Dynamic Control Listener (Play / Pause / Reset Toggle)
+        controlButton.addEventListener('click', () => {
+            const isRunning = timerInterval !== null;
+            
+            if (isRunning) {
+                // Running -> Pause (The button currently shows Pause ⏸️, action is to stop)
+                pauseTimer();
+            } else {
+                // Ready, Paused, or Finished -> Start/Resume/Start New (The button currently shows Play ▶️, action is to start)
+                startTimer();
+            }
+        });
+
+        // 2. Drag/Seek Listeners (attached to the SVG container)
+        svgContainer.addEventListener('mousedown', handleDragStart);
+        svgContainer.addEventListener('touchstart', handleDragStart, { passive: false });
+
+        // Initialize the timer display on load
+        window.onload = resetTimer;
+    </script>
+</body>
+</html>

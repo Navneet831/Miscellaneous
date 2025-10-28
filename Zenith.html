@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith - Strategic Elevator Pitch Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark corporate theme */
+            color: #ffffff;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; 
+        }
+        .avatar-orb {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #3b82f6 0%, #1d4ed8 50%, transparent 70%);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.8), 0 0 100px rgba(29, 78, 216, 0.5);
+            transition: transform 0.5s ease-out;
+            border: 2px solid rgba(59, 130, 246, 0.5);
+            animation: pulse 4s infinite ease-in-out;
+        }
+        .status-light {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ef4444; /* Red for Idle */
+            box-shadow: 0 0 8px #ef4444;
+            transition: background-color 0.5s, box-shadow 0.5s;
+        }
+        .status-speaking {
+            background-color: #10b981; /* Green for Speaking */
+            box-shadow: 0 0 12px #10b981, 0 0 20px rgba(16, 185, 129, 0.5);
+            animation: flicker 0.5s infinite alternate;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.95; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes flicker {
+            from { opacity: 1; }
+            to { opacity: 0.8; }
+        }
+        .pitch-container {
+            max-width: 500px;
+            background-color: #1f2937;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            margin-top: 2rem;
+            min-height: 150px;
+            text-align: center;
+        }
+        .loading-text {
+            color: #f59e0b;
+        }
+    </style>
+</head>
+<body class="p-8">
+
+    <div id="main-container" class="flex flex-col items-center">
+        <!-- Header -->
+        <h1 class="text-3xl font-extrabold mb-8 text-blue-400">Zenith Pitch System</h1>
+
+        <!-- The Animated Avatar Orb -->
+        <div id="ai-avatar" class="avatar-orb">
+            <div id="status-light" class="status-light"></div>
+        </div>
+
+        <!-- Elevator Pitch Output Area -->
+        <div id="pitch-container" class="pitch-container flex flex-col justify-center items-center">
+            <p id="pitch-output" class="text-lg font-medium text-gray-200 loading-text">Initializing Zenith...</p>
+        </div>
+        
+        <!-- Controls -->
+        <button id="regenerate-button" class="mt-8 p-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors font-semibold shadow-lg hidden" disabled>
+            Play Pitch (Zenith Tone)
+        </button>
+
+        <p id="error-message" class="text-sm mt-4 text-red-500 hidden"></p>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script type="module">
+        // --- API & Config Constants ---
+        const apiKey = ""; 
+        const TTS_MODEL = 'gemini-2.5-flash-preview-tts';
+        const VOICE_NAME = "Charon"; // Informative, professional voice
+
+        // --- NAVNEET'S KNOWLEDGE BASE (The Resume Summary - Retained for context but not used for generation) ---
+        const NAVNEET_RESUME_SUMMARY = `
+            Navneet Chaudhary is an Assistant Manager in F&A/FP&A with 6+ years of experience. Core expertise is a T-shaped profile focusing on Tech/Automation across F&A, FP&A, GST, Capex, and Accounting. Key quantifiable metrics include: leveraging Python/RPA to reduce MIS manual effort by 80% (Grew Energy); accelerating management decision-making by 30% via FP&A setup (Oriana); and successfully managing 31 GST registrations (100% compliance). Seeking roles focused entirely on strategic financial modeling and automation to move up the value chain.
+        `;
+
+        // --- FINAL ELEVATOR PITCH (HARDCODED) ---
+        // Zenith's sole function is now to deliver this exact text via TTS.
+        const FINAL_ELEVATOR_PITCH = `Are you looking for a Pioneer or a caretaker? Hi, I'm Navneet Chaudhary, Assistant Manager, Finance at Orina Power Ltd. A T-shaped Finance professional, with 6+ years of Proven expertise. I lead transformation, leveraging AI to boost efficiency through Automation. Impactful leadership acts as a Multiplier. My vertical and horizontal expertise allows me to provide an innovative solution. I eliminate MIS through automation, fix the broken system through transformation, as I did at Grew reducing the MIS tasks by 80%. Connect for transformation. Don't forget to visit my YouTube channel to see a glimpse of my Automation. And if you have any questions, chat with Apollo, my AI-powered Assistant.`;
+        
+        // --- DOM Elements ---
+        const avatarOrb = document.getElementById('ai-avatar');
+        const statusLight = document.getElementById('status-light');
+        const pitchOutput = document.getElementById('pitch-output');
+        const regenerateButton = document.getElementById('regenerate-button');
+        const errorMessage = document.getElementById('error-message');
+
+        let isProcessing = false;
+
+        // --- Firebase Setup (Minimal Auth for compliance but not used for data) ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        if (Object.keys(firebaseConfig).length > 0) {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            signInAnonymously(auth).catch(e => console.error("Firebase Auth Error:", e));
+        }
+
+        // --- Utility Functions (Base64, PCM/WAV Conversion) ---
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcmData, sampleRate) {
+            const numChannels = 1;
+            const bytesPerSample = 2;
+            const buffer = new ArrayBuffer(44 + pcmData.byteLength);
+            const view = new DataView(buffer);
+            let offset = 0;
+            function writeString(str) {
+                for (let i = 0; i < str.length; i++) { view.setUint8(offset++, str.charCodeAt(i)); }
+            }
+            writeString('RIFF'); view.setUint32(offset, 36 + pcmData.byteLength, true); offset += 4;
+            writeString('WAVE');
+            writeString('fmt '); view.setUint32(offset, 16, true); offset += 4;
+            view.setUint16(offset, 1, true); offset += 2; 
+            view.setUint16(offset, numChannels, true); offset += 2;
+            view.setUint32(offset, sampleRate, true); offset += 4;
+            view.setUint32(offset, sampleRate * numChannels * bytesPerSample, true); offset += 4;
+            view.setUint16(offset, numChannels * bytesPerSample, true); offset += 2;
+            view.setUint16(offset, 16, true); offset += 2; 
+            writeString('data'); view.setUint32(offset, pcmData.byteLength, true); offset += 4;
+            new Int16Array(buffer, offset).set(new Int16Array(pcmData));
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        // Play the audio blob and manage the speaking animation
+        function playAudio(audioBlob) {
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = new Audio(audioUrl);
+            
+            statusLight.classList.add('status-speaking');
+            regenerateButton.disabled = true;
+
+            audio.onended = () => {
+                statusLight.classList.remove('status-speaking');
+                statusLight.style.backgroundColor = '#ef4444';
+                statusLight.style.boxShadow = '0 0 8px #ef4444';
+                isProcessing = false;
+                regenerateButton.disabled = false;
+            };
+
+            audio.onerror = (e) => {
+                console.error("Audio playback error:", e);
+                pitchOutput.textContent = "Audio error. Pitch text is available above.";
+                pitchOutput.classList.add('text-red-400');
+                isProcessing = false;
+                regenerateButton.disabled = false;
+            };
+
+            audio.play().catch(e => {
+                // This usually happens when the browser requires a user click to start media playback
+                pitchOutput.textContent = "Click the 'Play Pitch' button to hear Zenith's delivery.";
+                regenerateButton.classList.remove('hidden');
+                regenerateButton.textContent = "Play Pitch (Zenith Tone)";
+                isProcessing = false;
+                regenerateButton.disabled = false;
+            });
+        }
+
+        // Sets the UI to the thinking/loading state
+        function setThinkingState(message) {
+            isProcessing = true;
+            pitchOutput.textContent = message;
+            pitchOutput.classList.add('loading-text');
+            statusLight.style.backgroundColor = '#f59e0b';
+            statusLight.style.boxShadow = '0 0 10px #f59e0b';
+            statusLight.classList.remove('status-speaking');
+            regenerateButton.disabled = true;
+            errorMessage.classList.add('hidden');
+            regenerateButton.classList.add('hidden');
+        }
+
+        // Function to call the Gemini TTS for audio (LLM call is removed)
+        async function callGeminiTtsApi(text) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${TTS_MODEL}:generateContent?key=${apiKey}`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: text }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: {
+                        voiceConfig: {
+                            prebuiltVoiceConfig: { voiceName: VOICE_NAME }
+                        }
+                    }
+                },
+                model: TTS_MODEL
+            };
+            
+            for (let i = 0; i < 3; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    const part = result?.candidates?.[0]?.content?.parts?.[0];
+                    const audioData = part?.inlineData?.data;
+                    const mimeType = part?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/L16;")) {
+                        const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                        const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 16000;
+                        return { audioData, sampleRate };
+                    }
+                    throw new Error("Invalid TTS response structure or missing audio data.");
+                } catch (error) {
+                    console.error(`Attempt ${i + 1} failed for TTS API:`, error);
+                    if (i < 2) await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+                }
+            }
+            throw new Error("Failed to get audio from Gemini TTS after multiple retries.");
+        }
+
+
+        // Orchestrates the full delivery flow
+        async function generateElevatorPitch() {
+            if (isProcessing) return;
+
+            setThinkingState("Zenith is preparing the pitch delivery...");
+
+            try {
+                // 1. Set the Pitch Text (Uses the hardcoded constant)
+                const pitchText = FINAL_ELEVATOR_PITCH;
+                pitchOutput.textContent = pitchText;
+                pitchOutput.classList.remove('loading-text');
+                
+                // 2. Get Audio from TTS
+                setThinkingState("Zenith is synthesizing the audio delivery...");
+                const { audioData, sampleRate } = await callGeminiTtsApi(pitchText);
+
+                // 3. Process and Play Audio
+                const pcmData = base64ToArrayBuffer(audioData);
+                const pcm16 = new Int16Array(pcmData);
+                const wavBlob = pcmToWav(pcm16, sampleRate);
+                
+                // 4. Play and finalize state
+                playAudio(wavBlob);
+                regenerateButton.classList.remove('hidden');
+                regenerateButton.textContent = "Replay Pitch (Zenith Tone)";
+
+            } catch (error) {
+                console.error("Zenith Pitch Failure:", error);
+                errorMessage.textContent = "Critical Failure: Could not generate audio. Pitch text is displayed above.";
+                errorMessage.classList.remove('hidden');
+                pitchOutput.textContent = FINAL_ELEVATOR_PITCH; // Display text even if audio fails
+                pitchOutput.classList.remove('loading-text');
+                pitchOutput.classList.add('text-red-400');
+                
+                // Return to Idle state
+                statusLight.style.backgroundColor = '#ef4444';
+                statusLight.style.boxShadow = '0 0 8px #ef4444';
+                isProcessing = false;
+                regenerateButton.classList.remove('hidden');
+                regenerateButton.disabled = false;
+            }
+        }
+
+        // Event Listeners
+        window.onload = generateElevatorPitch;
+        regenerateButton.addEventListener('click', generateElevatorPitch);
+
+        // --- Real-time Mouse Tracking Animation (Attentiveness) ---
+        document.addEventListener('mousemove', (e) => {
+            const rect = avatarOrb.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const deltaX = e.clientX - centerX;
+            const deltaY = e.clientY - centerY;
+            const maxMove = 10;
+            const translateX = (deltaX / window.innerWidth) * (maxMove * 2);
+            const translateY = (deltaY / window.innerHeight) * (maxMove * 2);
+            avatarOrb.style.transform = `translate(${translateX}px, ${translateY}px) scale(1)`; 
+        });
+
+        document.addEventListener('mouseleave', () => {
+            avatarOrb.style.transform = `translate(0, 0) scale(1)`;
+        });
+
+    </script>
+</body>
+</html>
