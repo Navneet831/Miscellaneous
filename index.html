@@ -8,17 +8,75 @@
     <meta name="description" content="FP&A Automation Specialist Delhi | Python Finance | 80% Efficiency Gains | 6+ years cross-functional F&A expertise in GST, compliance, and strategic reporting.">
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- NEW Tailwind Config for Mind Map Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cfo-navy': '#1e40af', // Navy for root
+                        'cfo-slate': '#64748b', // Slate for collapsed
+                        'cfo-teal': '#0d9488', // Teal for leaves
+                        'cfo-blue': '#3b82f6', // Blue for expanded
+                    },
+                }
+            }
+        }
+    </script>
     <!-- Load Chart.js for the timeline visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
+    <!-- Load D3.js v7 CDN for the Mind Map -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    
     <!-- Google tag (gtag.js) for Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js/id=G-1XL4LRC5PP"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1XL4LRC5PP"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-1XL4LRC5PP');
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GT-57Z944P3');</script>
+
+    <!-- NEW: JSON-LD Structured Data for SEO and Google Jobs Crawl -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Navneet Chaudhary",
+      "jobTitle": "Assistant Manager, F&A | Automation Strategist",
+      "url": "https://your-profile-url.com",
+      "sameAs": [
+        "https://www.linkedin.com/in/navneet831/",
+        "https://github.com/Navneet831"
+      ],
+      "alumniOf": [
+        {"@type": "EducationalOrganization", "name": "Indira Gandhi National Open University (IGNOU)"},
+        {"@type": "EducationalOrganization", "name": "Delhi University (SOL)"}
+      ],
+      "knowsAbout": [
+        "Financial Planning and Analysis (FP&A)",
+        "Python Programming",
+        "Robotic Process Automation (RPA)",
+        "GST Compliance",
+        "Financial Modeling",
+        "Cost Control",
+        "Generative AI Applications in Finance"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Delhi",
+        "addressCountry": "IN"
+      }
+    }
     </script>
 
     <style>
@@ -31,7 +89,8 @@
         .metric-card {
             background-color: #161b22; /* Slightly lighter dark shade for cards */
             border: 1px solid #30363d;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
+            /* Huly.io Inspiration: Softened shadow for a cleaner look */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
         }
         /* CHANGE START: Reduced margin-bottom from 1.5rem to 1rem to tighten space below the main H2 section header. */
         .section-header {
@@ -89,6 +148,7 @@
             max-width: 1200px; 
             height: 90vh; 
             margin: 5vh auto;
+            padding: 10px; /* Tightened for mind map */
         }
         .close-button {
             float: right;
@@ -256,14 +316,7 @@
              display: none;
         }
         
-        /* *** FIX: ENFORCE FIXED HEIGHT AND SCROLLING FOR PROFESSIONAL DEVELOPMENT LIST *** */
-        #professionalDevelopmentList {
-            max-height: 220px; /* FIXED HEIGHT */
-            overflow-y: auto; /* ENABLE VERTICAL SCROLLING */
-            display: flex; 
-            flex-wrap: wrap; 
-            align-content: flex-start; 
-        }
+        /* *** REMOVED REDUNDANT CSS BLOCK for #professionalDevelopmentList *** */
 
         /* NEW RULE: Reduced vertical space between skill groups */
         .skill-group-container {
@@ -340,33 +393,8 @@
             stroke: #58a6ff; /* BLUE ACCENT: Distinct from green border */
             fill: transparent;
         }
-        /* Status Light */
-        .status-light {
-            /* Dot is kept small, but its visibility is controlled by JS state */
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background-color: #ef4444; /* Red for Idle */
-            box-shadow: 0 0 8px #ef4444;
-            transition: background-color 0.5s, box-shadow 0.5s;
-            z-index: 20;
-        }
-        .status-idle {
-            background-color: #ef4444; /* Red */
-            box-shadow: 0 0 8px #ef4444;
-        }
-        .status-speaking {
-            background-color: #10b981; /* Green */
-            box-shadow: 0 0 12px #10b981, 0 0 20px rgba(16, 185, 129, 0.5);
-            animation: flicker 0.5s infinite alternate;
-        }
-        @keyframes flicker {
-            from { opacity: 1; }
-            to { opacity: 0.8; }
-        }
+        /* Status Light CSS block removed */
+
         /* Collapsible Pitch Styles */
         #pitchContainer {
             margin-top: 1rem;
@@ -402,10 +430,48 @@
             font-weight: 600; 
             transition: background-color 0.2s, color 0.2s;
         }
+        /* FIX: Apply permanent 3D look to secondary buttons */
+        .secondary-link-button {
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+        }
         .secondary-link-button:hover {
             background-color: #30363d; /* Hover effect */
             color: #58a6ff; /* Blue hover text */
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.6); /* Inset shadow for press effect */
         }
+        
+        /* NEW: 3D Button Styling (Primary Buttons - Resume, Schedule, Play Pitch) */
+        .action-button-3d {
+            transition: all 0.15s ease-out;
+            /* Default 3D lift/shadow (Always visible) */
+            box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .action-button-3d:hover {
+            /* Simulates a press/lift reversal */
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.6);
+            transform: translateY(1px); /* Slight downward press visual */
+        }
+        
+        /* LinkedIn Specific Styling (Brand Blue) */
+        .linkedin-btn {
+            background-color: #0077B5; /* LinkedIn Blue */
+            border-color: #0077B5;
+            color: white; 
+            /* Ensure the 3D shadow is applied here too */
+            box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+        }
+        .linkedin-btn:hover {
+            background-color: #005582; /* Darker blue on hover */
+            border-color: #005582;
+            color: white;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.6); /* Inset shadow for press effect */
+        }
+        /* Overriding the default icon color for LinkedIn */
+        .linkedin-btn svg {
+            stroke: white; 
+        }
+
         
         /* Media Container Styles */
         .responsive-iframe-container {
@@ -481,23 +547,6 @@
             color: white;
         }
         
-        /* LinkedIn Specific Styling (Brand Blue) */
-        .linkedin-btn {
-            background-color: #0077B5; /* LinkedIn Blue */
-            border-color: #0077B5;
-            color: white; 
-        }
-        .linkedin-btn:hover {
-            background-color: #005582; /* Darker blue on hover */
-            border-color: #005582;
-            color: white;
-        }
-        /* Overriding the default icon color for LinkedIn */
-        .linkedin-btn svg {
-            stroke: white; 
-        }
-
-
         /* Responsive placement adjustment */
         @media (max-width: 1024px) { /* Adjust position for smaller screens */
              #top-right-fabs {
@@ -530,153 +579,88 @@
             }
         }
         
-        /* --- MIND MAP STYLES FROM MIND MAP.HTML --- */
-        
-        /* Overriding the body background from mind map to use the modal's background for consistency */
-        #mindmap-container {
-            /* Removed background-color: #121212; to use modal background */
-            font-family: 'Inter', sans-serif;
-            color: #E0E0E0; 
-            min-height: 80vh; /* Adjusted to fit within modal content better */
-            padding: 0; /* Reduced padding here, let the modal content handle it */
-            display: flex; 
-            align-items: flex-start; 
-            justify-content: flex-start; 
-            width: fit-content;
-            overflow: visible; /* Let the map itself overflow the inner container */
-            margin: 0 auto; /* Center the map root */
+        /* --- UPDATED D3 MIND MAP STYLES (Integrated from index (2).html - Enhanced Dark Theme, Nov 2025) --- */
+        /* Enhanced font family and base styles for maximum clarity */
+        #mindMapModal .modal-content {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #0f172a; /* Slate-900 for mind map consistency */
         }
         
-        /* Reset Mind Map SVG position within its container */
-        #mindmap-svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            overflow: visible;
-            z-index: 0; 
-        }
-        .connector-line {
+        /* Custom styles for the dark theme D3 elements - boosted contrast and size */
+
+        /* Style for the links (connecting lines) - thicker for visibility */
+        .link {
             fill: none;
-            stroke: #4B5563; /* Line color */
-            stroke-width: 3;
-            stroke-linecap: round;
+            stroke: #6b7280; /* Gray-500 for better visibility */
+            stroke-width: 2px;
+            transition: stroke 0.3s ease;
         }
 
-        /* --- Node Styling --- */
-        .node-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 5px 0; 
-            min-height: 40px; 
-        }
-        .node-content {
-            box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.4);
-            transition: all 0.2s ease-in-out;
+        /* Style for the nodes (circles) - larger radius for touch targets */
+        .node circle {
             cursor: pointer;
-            border: 1px solid transparent; 
-            user-select: none;
-            flex-shrink: 0; 
-            font-weight: 500;
+            fill: #0d9488; /* Teal-600 for leaves, professional */
+            stroke: #0f766e; /* Darker teal border */
+            stroke-width: 3px;
+            transition: fill 0.3s, stroke 0.3s;
         }
         
-        /* Node Level Styling (Corporate Palette) */
-        .root-node {
-            background-color: #003366; /* Deep Navy */
-            color: white;
-            padding: 1.5rem 1.5rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            border-radius: 9999px; 
-            min-width: 150px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(0, 51, 102, 0.5); 
-            z-index: 20; 
+        /* Style for collapsed expandable nodes */
+        .node--internal circle {
+            fill: #64748b; /* Slate-500 for collapsed */
+            stroke: #475569; /* Slate-600 border */
         }
 
-        /* Level 1: Main Categories (Corporate Cyan) */
-        .level-1-node {
-            background-color: #00A8A8; /* Corporate Cyan */
-            color: white;
-            padding: 0.75rem 1.5rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            border-radius: 9999px;
-            z-index: 15;
+        /* Enhanced text labels - professional font */
+        .node text {
+            fill: #f1f5f9; /* Slate-50 */
+            font-size: 12px; /* Slightly larger for readability */
+            pointer-events: none;
+            font-weight: 500; /* Medium weight */
+            text-shadow: 0.5px 0.5px 1px rgba(15, 23, 42, 0.8);
         }
 
-        /* Level 2: Timeline/Focus (Muted Gold) */
-        .level-2-node {
-            background-color: #CC8800; /* Muted Gold/Yellow */
-            color: white;
-            padding: 0.6rem 1.3rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 9999px;
-            z-index: 10;
+        /* Enhanced text outline/shadow for superior readability */
+        .text-outline {
+            stroke: rgba(15, 23, 42, 0.95);
+            stroke-width: 1.5px;
+            opacity: 0.9;
+            fill: none;
         }
 
-        /* Level 3: Company/Detail (Medium Gray) */
-        .level-3-node {
-            background-color: #4F555D; /* Medium Gray */
-            color: white;
-            padding: 0.5rem 1.25rem;
-            font-size: 0.9rem; 
-            border-radius: 9999px;
-            z-index: 5;
+        /* Enhanced SVG container: fixed viewport, independent scroll - ADAPTED FOR MODAL */
+        #tree-svg-container {
+            height: 100%; /* Full modal height */
+            width: 100%;
+            overflow: auto;
+            overflow-x: scroll;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #475569 #1e293b;
         }
 
-        /* Level 4: Designation/System Name (Dark Gray) */
-        .level-4-node {
-            background-color: #40464C; /* Darker Gray */
-            color: #D1D5DB; /* Lighter text */
-            padding: 0.4rem 1rem;
-            font-size: 0.85rem; 
-            border-radius: 9999px;
-            border: 1px solid #6B7280;
-            z-index: 1;
-        }
-        
-        /* Level 5: Sub-Detail/Metric (Light Gray) */
-        .level-5-node {
-            background-color: #6B7280; 
-            color: #E0E0E0; 
-            padding: 0.3rem 0.8rem;
-            font-size: 0.8rem;
-            border-radius: 9999px;
-            z-index: 0;
+        /* Webkit scrollbar styling */
+        #tree-svg-container::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
 
-        /* Common Node Enhancements */
-        .node-content:not(.root-node):hover {
-            transform: scale(1.03); 
+        #tree-svg-container::-webkit-scrollbar-track {
+            background: #1e293b;
         }
 
-        /* --- LAYOUT ADJUSTMENTS FOR VERTICAL SIBLINGS / HORIZONTAL CHILDREN --- */
-        .children-wrapper {
-            display: flex;
-            flex-direction: column; /* CRITICAL CHANGE: Siblings stack vertically */
-            align-items: flex-start; /* Align children to the left */
-            padding-left: 2rem; 
-            transition: all 0.3s ease-in-out;
-            min-width: 0; 
+        #tree-svg-container::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
         }
 
-        /* Specific vertical spacing for stacked siblings */
-        .level-1-children, .level-2-children, .level-3-children, .level-4-children { 
-            gap: 0.75rem; 
+        #tree-svg-container::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
         }
 
-        /* Collapse icon styling */
-        .collapse-icon {
-            font-family: Arial, sans-serif;
-            font-size: 1.25rem;
-            line-height: 1;
-            transition: transform 0.2s;
-            transform-origin: center center;
-            padding-left: 0.5rem; 
-        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -702,16 +686,14 @@
                             <circle id="progressCircle" class="progress-ring-circle" r="77" cx="80" cy="80" stroke-dasharray="483.8" stroke-dashoffset="483.8"></circle>
                         </svg>
                         
-                        <!-- Status Light (Hidden initially/when dot isn't needed) -->
-                        <div id="statusLight" class="status-light status-idle"></div>
+                        <!-- Status Light (REMOVED) -->
 
-                        <!-- Professional Photo (Original image) -->
+                        <!-- Professional Photo (Live Image - UPDATED SOURCE) -->
                         <img id="profilePhoto" 
-                                src="https://placehold.co/160x160/161b22/f0f6f0?text=NC" 
-                                onerror="this.src='https://placehold.co/160x160/161b22/f0f6f0?text=NC'"
-                                alt="Navneet Chaudhary Professional Portrait" 
-                                class="w-40 h-40 object-cover rounded-full border-4 border-[#238636] shadow-2xl"
-                                style="position: relative; z-index: 10;">
+                             src="https://raw.githubusercontent.com/Navneet831/Intro/main/Profile.png" 
+                             alt="Navneet Chaudhary Professional Portrait" 
+                             style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid #3b82f6; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); position: relative; z-index: 10;"
+                             onerror="this.onerror=null; this.src='https://placehold.co/150x150/161b22/f0f6f0?text=NC';">
                     </div>
                     <!-- END NEW AVATAR CONTAINER -->
 
@@ -729,26 +711,29 @@
                     <div class="flex space-x-3 w-full max-w-xs mx-auto lg:mx-0 justify-center lg:justify-start mb-4">
                         <button id="playPitchButton" 
                                 onclick="window.generateElevatorPitch()"
-                                class="flex-1 px-4 py-2 text-sm bg-[#58a6ff] text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 flex items-center justify-center space-x-1"
+                                class="flex-1 px-4 py-2 text-sm bg-[#58a6ff] text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition action-button-3d flex items-center justify-center space-x-1"
                                 aria-label="Play Introduction Pitch">
                             <!-- Play Icon SVG -->
                             <svg id="pitchButtonIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197 2.132A1 1 0 0110 13.73v-3.46a1 1 0 011.555-.832l3.197 2.132z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span>Play Pitch</span>
                         </button>
                         
-                        <!-- Follow Button (LinkedIn Style) - NOW SAME SIZE AS PITCH -->
-                        <button onclick="console.log('Follow clicked'); this.textContent = 'Following'; this.classList.remove('bg-[#58a6ff]', 'hover:bg-blue-600'); this.classList.add('bg-gray-700', 'hover:bg-gray-600');"
-                                class="follow-button flex-1 px-3 py-1 text-sm bg-[#58a6ff] text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 flex items-center justify-center"
-                                aria-label="Follow Navneet Chaudhary"
-                                role="button">
-                            Follow
-                        </button>
+                        <!-- FOLLOW BUTTON: LinkedIn Link (TEXT: "LinkedIn", ICON: REMOVED) -->
+                        <a href="https://www.linkedin.com/in/navneet831/" 
+                                target="_blank"
+                                class="follow-button flex-1 px-3 py-1 text-sm font-semibold rounded-lg shadow-md linkedin-btn action-button-3d flex items-center justify-center space-x-1"
+                                aria-label="View Navneet Chaudhary's LinkedIn Profile"
+                                role="button"
+                                onclick="gtag('event', 'link_click', {'event_category': 'social', 'event_label': 'linkedin_follow_button'});">
+                            <!-- SVG Icon REMOVED -->
+                            <span>LinkedIn</span>
+                        </a>
                     </div>
                     <!-- !!! END NEW LOCATION FOR PITCH AND FOLLOW BUTTONS !!! -->
                     
                     <!-- Divider line, simulating the old contact bar location -->
                     <div class="contact-bar w-full justify-center lg:justify-start">
-                        <!-- Removed content, kept for styling boundary if needed. Use border-top/bottom on parent or child if necessary -->
+                        <!-- Added horizontal line for visual break -->
                         <div class="w-full" style="border-top: 1px solid #30363d; margin-top: -1rem;"></div>
                     </div>
 
@@ -775,7 +760,7 @@
                             <a id="downloadResumeButton"
                                 href="https://drive.google.com/file/d/1UBxBOqUxtL386miSFkWOXQlG5HWMaUS2/view?usp=sharing"
                                 target="_blank"
-                                class="px-4 py-2 text-sm border border-[#238636] bg-[#238636] text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:border-green-600 transition duration-300 flex items-center space-x-1 flex-grow sm:flex-grow-0"
+                                class="px-4 py-2 text-sm border border-[#238636] bg-[#238636] text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:border-green-600 transition action-button-3d flex items-center space-x-1 flex-grow sm:flex-grow-0"
                                 role="button" aria-label="Download my resume (Google Drive)">
                                 <!-- Download Icon SVG -->
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -785,44 +770,48 @@
                             <!-- 2. Portfolio/Linktree Button -->
                             <a href="https://linktr.ee/navneet831" 
                                target="_blank" 
-                               class="px-4 py-2 text-sm font-semibold rounded-lg shadow-md flex-grow sm:flex-grow-0 secondary-link-button"
+                               class="px-4 py-2 text-sm font-semibold rounded-lg shadow-md flex-grow sm:flex-grow-0 secondary-link-button action-button-3d"
                                role="button" aria-label="View all external links including portfolio"
-                               onclick="gtag('event', 'link_click', {'event_category': 'resume_cta', 'event_label': 'linktree_view'})">
+                               onclick="gtag('event', 'link_click', {'event_category': 'resume_cta', 'event_label': 'linktree_view'});">
                                 Portfolio
                             </a>
                             
                             <!-- 3. Check My Availability Button (Blue accent) -->
+                            <!-- UPDATED CTA TEXT AND ARIA LABEL -->
                             <a href="https://calendar.app.google/qtFpe6bA8cr6qPDk8"
                                 target="_blank"
-                                class="px-4 py-2 text-sm border border-[#58a6ff] bg-[#58a6ff] text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 hover:border-blue-600 transition duration-300 flex items-center space-x-1 flex-grow sm:flex-grow-0"
-                                role="button" aria-label="Check my availability for a meeting">
+                                class="px-4 py-2 text-sm border border-[#58a6ff] bg-[#58a6ff] text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 hover:border-blue-600 transition action-button-3d flex items-center space-x-1 flex-grow sm:flex-grow-0"
+                                role="button" aria-label="Schedule a discussion via Google Calendar">
                                 <!-- Calendar Icon SVG -->
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <span>Check My Availability</span>
+                                <span>Schedule a discussion</span>
                             </a>
                         </div>
-                    
+                        
                         <!-- Row 2: Email, Phone, Cover Letter (Contact/Secondary Action, Horizontal) -->
                         <!-- RESTORING EMAIL AND PHONE LINKS HERE -->
                         <div class="flex flex-wrap justify-center lg:justify-start gap-3">
                             <!-- 4. Email Link (Now a button-style link) -->
-                            <a href="mailto:Nvc7162@gmail.com" class="px-4 py-2 text-sm font-semibold rounded-lg shadow-md flex-grow sm:flex-grow-0 secondary-link-button flex items-center space-x-1" aria-label="Email Nvc7162@gmail.com">
+                            <a href="mailto:Nvc7162@gmail.com" class="px-4 py-2 text-sm font-semibold rounded-lg shadow-md flex-grow sm:flex-grow-0 secondary-link-button action-button-3d flex items-center space-x-1" aria-label="Email Nvc7162@gmail.com">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                                 <span>Nvc7162@gmail.com</span>
                             </a>
 
                             <!-- 5. Phone Link (Now a button-style link) -->
-                            <a href="tel:+919873394075" class="px-4 py-2 text-sm font-semibold rounded-lg shadow-md flex-grow sm:flex-grow-0 secondary-link-button flex items-center space-x-1" aria-label="Call +91 98733 94075">
+                            <a href="tel:+919873394075" class="px-4 py-2 text-sm font-semibold rounded-lg shadow-md flex-grow sm:flex-grow-0 secondary-link-button action-button-3d flex items-center space-x-1" aria-label="Call +91 98733 94075">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.5l1 4-3.5 1.5a12.5 12.5 0 005.5 5.5l1.5-3.5 4 1v3.5a2 2 0 01-2 2H5a2 2 0 01-2-2v-14z"></path></svg>
                                 <span>+91 98733 94075</span>
                             </a>
 
-                            <!-- 6. Full Cover Letter Button - STYLING APPLIED -->
-                            <button onclick="document.getElementById('coverLetterModal').style.display='block'" 
-                                    class="px-4 py-2 text-sm font-semibold rounded-lg shadow-md flex-grow sm:flex-grow-0 secondary-link-button"
-                                    aria-haspopup="dialog" aria-controls="coverLetterModal" aria-label="Open full cover letter">
-                                Cover Letter
-                            </button>
+                            <!-- 6. Full Cover Letter Link (UPDATED: Added Download Icon) -->
+                            <a href="https://drive.google.com/file/d/19VaToDZPDiaPzNfH8QOty_EjZtr9LIn6/view?usp=sharing"
+                                target="_blank" 
+                                class="px-4 py-2 text-sm font-semibold rounded-lg shadow-md flex-grow sm:flex-grow-0 secondary-link-button action-button-3d flex items-center space-x-1"
+                                role="button" aria-label="Open full cover letter (Google Drive)">
+                                <!-- Download Icon SVG (Same as Resume) -->
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                <span>Cover Letter</span>
+                            </a>
                         </div>
                         
                     </div>
@@ -862,29 +851,18 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197 2.132A1 1 0 0110 13.73v-3.46a1 1 0 011.555-.832l3.197 2.132z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </button>
             
+            <!-- --- SOCIAL ICONS BELOW THE CONTACT LINE (Matching image reference) --- -->
+
             <!-- 3. GitHub Icon Button -->
             <a href="https://github.com/Navneet831" target="_blank" class="social-icon-btn" aria-label="View GitHub Profile">
-                <!-- SVG Icon for GitHub -->
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.904 0l1.543 4.74c.15.462.593.774 1.077.774h4.981c.974 0 1.378 1.258.59 1.81l-4.032 2.932c-.38.277-.525.753-.375 1.215l1.543 4.74c.3.921-.755 1.688-1.54 1.134L12 18.291l-4.032 2.932c-.785.554-1.84-.197-1.54-1.134l1.543-4.74c.15-.462-.005-.938-.375-1.215L2.348 9.251c-.788-.552-.384-1.81.59-1.81h4.981c.484 0 .927-.312 1.077-.774L11.049 2.927z"></path></svg>
-            </a>
-
-            <!-- 4. Medium Icon Button -->
-            <a href="https://medium.com/@navneet831" target="_blank" class="social-icon-btn" aria-label="View Medium Articles">
-                 <!-- SVG Icon for Medium (Pencil) -->
-                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-            </a>
-
-            <!-- 5. LinkedIn Icon Button - STYLED TO BE BRAND BLUE -->
-            <a href="https://www.linkedin.com/in/navneet831/" 
-               target="_blank" 
-               class="social-icon-btn linkedin-btn" 
-               aria-label="View LinkedIn Profile">
-                <!-- Custom SVG for solid LinkedIn icon - 'in' logo -->
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="24" height="24" rx="4" fill="none"/>
-                    <path d="M16 8c-1.1 0-2 .9-2 2v7h-3v-7c0-1.1-.9-2-2-2s-2 .9-2 2v7H7V9h3v1.5a3 3 0 0 1 2.6-1.5c2.1 0 3.4 1.8 3.4 4.5V17h3v-7c0-2.8-2.2-5-5-5zM6.5 5.75A1.75 1.75 0 1 1 8.25 4 1.75 1.75 0 0 1 6.5 5.75z" fill="white"/>
+                <!-- Authentic GitHub SVG Icon (Source: Official octocat shape) -->
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.463 2 11.974c0 4.417 2.865 8.163 6.843 9.49.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.152-1.107-1.464-1.107-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.027 1.531 1.027.892 1.529 2.341 1.089 2.91.83.092-.644.35-1.089.635-1.336-2.22-.251-4.555-1.111-4.555-4.943 0-1.092.39-1.983 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.28 9.28 0 0112 6.883c.85.004 1.701.114 2.502.336 1.909-1.29 2.747-1.022 2.747-1.022.544 1.372.203 2.386.1 2.638.638.692 1.028 1.583 1.028 2.675 0 3.844-2.336 4.681-4.563 4.935.359.307.678.92.678 1.854 0 1.336-.012 2.417-.012 2.747 0 .267.18.578.688.482C21.137 20.137 24 16.39 24 11.974 24 6.463 19.522 2 14 2h-2z"/>
                 </svg>
             </a>
+
+            <!-- 4. Medium Icon Button (REMOVED) -->
+            <!-- The Medium link has been removed as requested -->
 
         </section>
         
@@ -941,7 +919,7 @@
                         <!-- Grew Energy Pvt Ltd (Streamlit reference removed) -->
                         <div class="mb-4"> <!-- REDUCED mb-6 to mb-4 -->
                             <h3 class="text-lg font-bold text-[#58a6ff]">Grew Energy Pvt Ltd. <span class="text-sm font-normal text-gray-400">(Assistant Manager F&A)</span></h3>
-                            <p class="text-xs text-gray-500 mb-2">December 2024 - June 2025 (Ahmedabad)</p>
+                            <p class="text-xs text-gray-500 mb-2">December 2024 - June 9, 2025 (Ahmedabad)</p>
                             <div class="job-detail">
                                 <!-- CORRECTED LINE: Ensure achievement text starts directly after the bold header on the same line. -->
                                 <p class="text-sm text-gray-400"><b class="text-white">FP&A Automation: Engineered</b> process automation by building <b>Python-based RPA, dashboards, and AI-enabled database access</b>, reducing MIS preparation time and manual effort by 80%.</p>
@@ -1040,7 +1018,6 @@
                     </div> <!-- End experienceContent -->
                 </section>
                 
-                
                 <!-- ACHIEVEMENTS SECTION (MODIFIED TO USE TABS) -->
                 <section class="p-4 metric-card rounded-lg bg-gradient-expertise mb-6"> <!-- REDUCED p-6 to p-4, mb-8 to mb-6 -->
                     <h2 class="text-2xl font-bold section-header">Key Achievements & Recognition</h2>
@@ -1107,7 +1084,7 @@
                                 </li>
                                 <li class="flex items-start">
                                     <span class="mr-2 text-[#238636] text-lg leading-none">•</span>
-                                    <p class="flex-grow"><b>Economics Quiz:</b> Ranked 3rd in an Economics Quiz competition during the 12th Grade (2016).</p>
+                                    <p class="flex-grow"><b>Economics Quiz:</b> Ranked 3rd in an Economics Quiz competition during the 12th Grade (2017).</p>
                                 </li>
                                 <li class="flex items-start">
                                     <span class="mr-2 text-[#238636] text-lg leading-none">•</span>
@@ -1145,7 +1122,6 @@
 
                     </div> <!-- End achievementsContainer -->
                 </section>
-                
                 
                 <!-- EXTRA-CURRICULAR SECTION -->
                 <section class="p-4 metric-card rounded-lg mb-6"> <!-- REDUCED p-6 to p-4, mb-8 to mb-6 -->
@@ -1232,7 +1208,7 @@
                             <tbody>
                                 <!-- Sorted by Year (Newest to Oldest) -->
                                 <tr>
-                                    <td>M.B.A (Financial Mgmt)</td>
+                                    <td>M.B.A FM</td>
                                     <td>2026</td>
                                     <td>Pursuing</td>
                                     <td>IGNOU</td>
@@ -1244,7 +1220,7 @@
                                     <td>IGNOU</td>
                                 </tr>
                                 <tr>
-                                    <td>PG Diploma in International Operation</td>
+                                    <td>PGDIBO</td>
                                     <td>2022</td>
                                     <td>62%</td>
                                     <td>IGNOU</td>
@@ -1258,17 +1234,17 @@
                                 </tr>
                                 <!-- CA CPT REMOVED FROM HERE -->
                                 <tr>
-                                    <td>12th (Commerce with Mathematics)</td>
+                                    <td>12th C/M</td>
                                     <td>2017</td>
                                     <!-- REMOVED RSBV NO. 2 -->
                                     <td>68%</td>
                                     <td>CBSE</td>
                                 </tr>
-                                <!-- NEW 10TH GRADE ENTRY -->
+                                <!-- NEW 10TH GRADE ENTRY (Updated to 78%) -->
                                 <tr>
-                                    <td>10th Grade</td>
+                                    <td>10th</td>
                                     <td>2015</td>
-                                    <td>8.2 CGPA</td>
+                                    <td>78%</td>
                                     <td>CBSE</td>
                                 </tr>
                             </tbody>
@@ -1418,7 +1394,7 @@
         
         <!-- FOOTER SECTION - MODIFIED TO INCLUDE CREDIT AND LINK -->
         <section class="mt-8 text-center border-t border-gray-700 pt-4"> <!-- REDUCED mt-16/pt-6 to mt-8/pt-4 -->
-            <!-- Feature Suggestion Link - RENAMED -->
+            <!-- Feature Suggestion Link - RENAMED. Tawk.to is linked externally -->
             <a href="https://tawk.to/chat/68efdd0e7e16ad19527ac96f/1j7kff0qq" target="_blank" class="text-gray-500 hover:text-[#238636] font-semibold transition duration-200 inline-block text-sm" aria-label="Start a direct chat with Zenith">
                 Chat with Zenith my AI powered Assistant.
             </a>
@@ -1431,45 +1407,71 @@
 
     </div>
     
-    <!-- MODAL DEFINITIONS (No longer needed to be fixed/floating) -->
+    <!-- MODAL DEFINITIONS (Cover Letter Modal has been removed) -->
     
-    <!-- MEDIA MODAL (New popup for X and YouTube) -->
+    <!-- MEDIA MODAL (New popup for Portfolio/Playlist) -->
     <div id="mediaModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="media-modal-title">
         <div class="modal-content">
-            <!-- UPDATED onclick to use new function -->
+            <!-- UPDATED title to reflect playlist/portfolio name -->
             <span class="close-button" onclick="window.closeMediaModal()" aria-label="Close media modal">&times;</span>
-            <h2 id="media-modal-title" class="text-3xl font-bold section-header text-white mb-6">Digital Portfolio: Social & Video</h2>
+            <h2 id="media-modal-title" class="text-3xl font-bold section-header text-white mb-6">Digital Portfolio: Financial Automation through Transformation</h2>
             
             <div class="h-[90%] overflow-y-auto">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
                     
-                    <!-- LEFT COLUMN: X TIMELINE -->
+                    <!-- LEFT COLUMN: PLAYLIST CONTENTS (New Structure) -->
                     <div class="flex flex-col space-y-4">
-                        <h3 class="text-xl font-semibold text-[#58a6ff]">My X (Twitter) Feed</h3>
+                        <h3 class="text-xl font-semibold text-[#58a6ff]">Playlist: Project Roadmap</h3>
                         <div class="bg-[#1f2328] p-4 rounded-lg flex-grow min-h-0 overflow-y-auto border border-[#30363d]">
-                            <!-- X Timeline Embed Code -->
-                            <!-- data-height="500" ensures it fits nicely in the container -->
-                            <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/navneet831?ref_src=twsrc%5Etfw">Tweets by navneet831</a> 
-                            <!-- The script to render this timeline is placed at the end of the body -->
+                            <!-- REMOVED: 3 Projects - From Reporting to RPA -->
+                            
+                            <!-- Playlist Item 1 (Active/Completed) -->
+                            <div class="mb-4 p-3 border-l-4 border-[#238636] bg-[#161b22] rounded-r-lg">
+                                <p class="text-sm font-bold text-[#238636] flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    VIDEO 1: Cash flow analytics dashboard
+                                </p>
+                                <p class="text-xs text-gray-400 mt-1">Goal: Build cash flow reporting to know the cash position forecasted vs. actual cash flow.</p>
+                            </div>
+                            
+                            <!-- Playlist Item 2 (Planned - Dashboard) -->
+                            <div class="mb-4 p-3 border-l-4 border-[#58a6ff] bg-[#161b22] rounded-r-lg">
+                                <p class="text-sm font-bold text-[#58a6ff] flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                    VIDEO 2: Snacks Fund Dashboard
+                                </p>
+                                <p class="text-xs text-gray-400 mt-1">Goal: Fund Management dashboard build for casual/colleague snacks fund visualization.</p>
+                            </div>
+                            
+                            <!-- Playlist Item 3 (Planned - RPA) -->
+                            <div class="mb-4 p-3 border-l-4 border-[#ff9e6a] bg-[#161b22] rounded-r-lg">
+                                <p class="text-sm font-bold text-[#ff9e6a] flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-2.414-2.414A1 1 0 0015.586 6H7a2 2 0 00-2 2v11a2 2 0 002 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6M9 17h6M11 7V4"></path></svg>
+                                    VIDEO 3: Python PDF Renamer (RPA)
+                                </p>
+                                <p class="text-xs text-gray-400 mt-1">Goal: One-click Python script to fetch account numbers from bank statement PDFs and rename 100s of files.</p>
+                            </div>
                         </div>
                     </div>
                     
                     <!-- RIGHT COLUMN: YOUTUBE VIDEO -->
                     <div class="flex flex-col space-y-4">
-                        <h3 class="text-xl font-semibold text-[#58a6ff]">My Automation Insights (YouTube)</h3>
+                        <h3 class="text-xl font-semibold text-[#58a6ff]">Automation Project Demonstration (Playlist)</h3>
                         <div class="bg-[#1f2328] p-4 rounded-lg flex-grow min-h-0 border border-[#30363d]">
-                            <!-- Responsive YouTube Embed Container (Placeholder) -->
+                            <!-- Responsive YouTube Embed Container -->
                             <div class="responsive-iframe-container">
-                                <!-- MODIFIED: iframe now uses ID and has initial SRC removed. SRC will be set on open. -->
+                                <!-- UPDATED: iframe source is now the new playlist URL -->
                                 <iframe id="youtubeIframe"
+                                        src="https://www.youtube.com/embed/videoseries?list=PLEfUln3m0PdhgiQzVE2GM8cwd8WqyfWw2"
                                         frameborder="0" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                         allowfullscreen 
-                                        title="YouTube video player - FP&A Automation">
+                                        title="YouTube video player - Financial Automation Projects Playlist">
                                 </iframe>
                             </div>
-                            <p class="text-sm text-gray-400 mt-4">
-                                <b class="text-white">Video Description:</b> A demonstration of key automation processes using Python, designed to accelerate financial close and MIS reporting. This showcases practical application of the automation skills listed in my portfolio.
+                            <!-- NEW: Playlist Description (Moved below video as requested) -->
+                            <p class="text-xs text-gray-400 mt-4 italic">
+                                Playlist Description: A demonstration series showcasing key financial automation projects (Python, RPA, Dashboards) built to deliver efficiency and control in F&A environments.
                             </p>
                         </div>
                     </div>
@@ -1478,61 +1480,47 @@
         </div>
     </div>
     
-    <!-- MIND MAP MODAL (Integrated Mind Map HTML) -->
+    <!-- MIND MAP MODAL (Integrated D3 Mind Map HTML) -->
     <div id="mindMapModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="mindmap-modal-title">
-        <div class="modal-content">
+        <div class="modal-content flex flex-col">
             <!-- UPDATED onclick to use new function -->
             <span class="close-button" onclick="window.closeMindMapModal()" aria-label="Close mind map modal">&times;</span>
-            <h2 id="mindmap-modal-title" class="text-3xl font-bold section-header text-white mb-6">Professional Profile: Mind Map</h2>
-            
-            <!-- INTEGRATED MIND MAP CONTENT HERE -->
-            <div id="mindmap-container" class="relative overflow-auto" style="min-height: 80vh; padding: 3rem 2rem;">
-                <!-- SVG for lines is positioned absolutely -->
-                <svg id="mindmap-svg" style="background-color: #121212;"></svg>
-                
-                <!-- The mind map structure starts here. Root acts as a single node container. -->
-                <div id="mindmap-root" class="relative z-10 flex flex-row items-center"></div>
+            <!-- Title in left top -->
+            <div class="absolute top-4 left-4 z-10">
+                <h1 class="text-2xl font-semibold text-cfo-teal tracking-tight">Navneet Mind Map</h1>
             </div>
-            
-            <p class="text-sm text-gray-400 mt-4">
-                This interactive mind map visualizes my professional journey, skills, and education in a structured, hierarchical format.
+            <!-- Visualization Container - Full viewport with independent scroll -->
+            <div class="relative" id="tree-svg-container">
+                <svg id="tree-svg"></svg>
+            </div>
+            <p class="text-sm text-gray-400 mt-4 flex-shrink-0">
+                This interactive mind map visualizes my professional journey, skills, and education in a structured, hierarchical format. Click any node to collapse or expand branches.
             </p>
         </div>
     </div>
 
-    <!-- COVER LETTER MODAL (New Tab Simulation) - Added ARIA Role -->
-    <div id="coverLetterModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="modal-content">
-            <span class="close-button" onclick="document.getElementById('coverLetterModal').style.display='none'" aria-label="Close modal">&times;</span>
-            <h2 id="modal-title" class="text-3xl font-bold section-header text-white mb-6">Cover Letter / Statement of Intent</h2>
-            <blockquote class="p-4 border-l-4 border-[#238636] bg-[#1f2328] rounded-r-lg text-gray-300 italic text-base">
-                <p class="mb-4 text-white font-semibold">TARGETING: $\text{₹}20-25\text{L}$ Assistant Manager, FP&A / Immediate Join</p>
-                <p class="mb-4">I am writing to express my strong interest in a senior F&A role. With 6+ years of expertise spanning <b>FP&A, strategic finance, and compliance</b>, my value is defined by measurable process automation. I successfully leveraged <b>Python and Generative AI</b> to drive efficiency, cutting manual MIS effort by <b>80%</b> and securing timely bank funding during a liquidity crunch.</p>
-                <p class="mb-4">My background, solidified by the <b>CA CPT, NISM, and Financial Modelling</b> certifications, ensures compliance and strategic financial execution. My recent transitions were due to organizational changes and unavoidable family medical leave, which I utilized to secure the <b>Google Data Analytics Certification</b>—strengthening my toolkit for immediate impact.</p>
-                <p>I offer a disciplined, automation-focused approach ready to drive fiscal health in a forward-thinking organization. The detailed financial model for my automation initiatives is attached via Linktree.</p>
-                <footer class="mt-4 text-right text-sm text-gray-500">
-                    — Navneet Chaudhary
-                </footer>
-            </blockquote>
-        </div>
-    </div>
-    
-    <!-- Tawk.to Integration Script (UPDATED with new Widget ID) -->
-    <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/68efdd0e7e16ad19527ac96f/1j7kff0qq';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
     
     <!-- Load Twitter Widgets script (Needed for the X timeline in the modal) -->
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     
+    <!-- --- TAWK.TO SCRIPT (Re-added outside module for maximum load reliability) --- -->
+    <script type="text/javascript">
+    try {
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/68efdd0e7e16ad19527ac96f/1j7kff0qq';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    } catch(e) {
+        console.warn("Tawk.to script failed to load:", e);
+    }
+    </script>
+    <!-- -------------------------------------------------------------------------- -->
+
     <!-- Combined and updated JavaScript logic in a single module block -->
     <script type="module">
         // --- Firebase Setup (Minimal Auth for compliance) ---
@@ -1541,530 +1529,354 @@
         
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         if (Object.keys(firebaseConfig).length > 0) {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            signInAnonymously(auth).catch(e => console.error("Firebase Auth Error:", e));
+            try {
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                // Auth token logic is correctly omitted for this non-data app, defaulting to anonymous sign-in
+                signInAnonymously(auth).catch(e => console.error("Firebase Auth Error (Anonymous):", e));
+            } catch(e) {
+                 console.error("Firebase Initialization Error:", e);
+            }
         }
-
-        // --- MIND MAP DATA ---
-        const mindMapData = {
-            id: 0, title: "Navneet Chaudhary", isRoot: true, expanded: true, nodeClass: 'root-node',
-            children: [
-                // --- EDUCATION & CERTIFICATIONS BRANCH (RECENT TO PAST) ---
+        
+        // --- PROFESSIONAL DATA STRUCTURE (v10.0: Recruiter-Facing, Few Words, Color-Coded, Nov 1 Update) ---
+        const treeData = {
+            "name": "Navneet Chaudhary", 
+            "children": [
                 {
-                    id: 1, title: "Education & Certifications", expanded: true, nodeClass: 'level-1-node', children: [
-                        // 1. MBA FM (2025 – 2026)
-                        { id: 14, title: "2025 – 2026", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 15, title: "MBA (Financial Management) | IGNOU (Planned)", nodeClass: 'level-3-node' }
-                        ]},
-                        // 2. NISM Research Analyst (June 2024)
-                        { id: 8, title: "June 2024", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 9, title: "Research Analyst | NISM", nodeClass: 'level-3-node' }
-                        ]},
-                        // 3. M.Com (2023 – 2024)
-                        { id: 6, title: "2023 – 2024", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 7, title: "M.Com | IGNOU", nodeClass: 'level-3-node' }
-                        ]},
-                        // 4. Financial Modeling (Aug 2023)
-                        { id: 12, title: "Aug 2023", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 13, title: "Financial Modeling | The Wall Street School", nodeClass: 'level-3-node' }
-                        ]},
-                        // 5. PGDIB (2021 – 2022)
-                        { id: 4, title: "2021 – 2022", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 5, title: "PGDIB | IGNOU", nodeClass: 'level-3-node' }
-                        ]},
-                        // 6. B.Com (2018 – 2020)
-                        { id: 2, title: "2018 – 2020", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 3, title: "B.Com | SOL DU", nodeClass: 'level-3-node' }
-                        ]},
-                        // 7. CA CPT (2018)
-                        { id: 10, title: "2018", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 11, title: "CA CPT | ICAI", nodeClass: 'level-3-node' }
-                        ]},
+                    "name": "Expertise",
+                    "children": [
+                        { "name": "FP&A" },
+                        { "name": "Accounting" },
+                        { "name": "Taxation" },
+                        { "name": "Audit" },
+                        { "name": "Project Finance" },
+                        { "name": "Cash Flow Management" }
                     ]
                 },
-                // --- EXPERIENCE BRANCH (RECENT TO PAST) ---
-                { 
-                    id: 100, title: "Experience", expanded: true, nodeClass: 'level-1-node', children: [
-                        
-                        // 1. Current Break (Sep '25 – Present) - Carer Break
-                        { id: 118, title: "Sep '25 – Present", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 119, title: "Carer Break", nodeClass: 'level-3-node' }
-                        ]},
-                        
-                        // 2. Oriana (Jun '25 – Sep '25)
-                        { id: 115, title: "Jun '25 – Sep '25", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 116, title: "Oriana Power Ltd", expanded: true, nodeClass: 'level-3-node', children: [
-                                { id: 117, title: "Asst. Manager F&A", nodeClass: 'level-4-node', children: [
-                                    { id: 205, title: "Handled financial closing.", nodeClass: 'level-5-node' }
-                                ]}
-                            ]}
-                        ]},
-                        
-                        // 3. Grew Energy (Dec '24 – Jun '25)
-                        { id: 112, title: "Dec '24 – Jun '25", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 113, title: "Grew Energy Pvt Ltd", expanded: true, nodeClass: 'level-3-node', children: [
-                                { id: 114, title: "Asst. Manager F&A", nodeClass: 'level-4-node', children: [
-                                    { id: 204, title: "Oversaw Capex management.", nodeClass: 'level-5-node' }
-                                ]}
-                            ]}
-                        ]},
-                        
-                        // 4. Carer Break (Sep '24 – Nov '24) - Bifurcated
-                        { id: 110, title: "Sep '24 – Nov '24", expanded: true, nodeClass: 'level-2-node', children: [
-                            { 
-                                id: 111, 
-                                title: "Carer Break", 
-                                expanded: true, 
-                                nodeClass: 'level-3-node',
-                                children: [
-                                    { id: 401, title: "Focus on Mother's Treatment", nodeClass: 'level-4-node' },
-                                    { id: 402, title: "Volunteer Work (Robinhood Army)", nodeClass: 'level-4-node' }
-                                ]
-                            }
-                        ]},
-                        
-                        // 5. Ozone (Feb '22 – Aug '24)
-                        { id: 107, title: "Feb '22 – Aug '24", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 108, title: "Ozone Pharmaceuticals Ltd.", expanded: true, nodeClass: 'level-3-node', children: [
-                                { id: 109, title: "Senior Executive F&A", nodeClass: 'level-4-node', children: [
-                                    { id: 203, title: "Managed P&L for a ₹20 Cr portfolio.", nodeClass: 'level-5-node' }
-                                ]}
-                            ]}
-                        ]},
-                        
-                        // 6. SMH (Feb '21 – Feb '22)
-                        { id: 104, title: "Feb '21 – Feb '22", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 105, title: "Shanti Mukand Hospital", expanded: true, nodeClass: 'level-3-node', children: [
-                                { id: 106, title: "Junior Executive F&A", nodeClass: 'level-4-node', children: [
-                                    { id: 202, title: "Handled daily accounting operations.", nodeClass: 'level-5-node' }
-                                ]}
-                            ]}
-                        ]},
-                        
-                        // 7. KGC (Feb '19 – Jan '21) - Oldest
-                        { id: 101, title: "Feb '19 – Jan '21", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 102, title: "Kumar Grover & Co.", expanded: true, nodeClass: 'level-3-node', children: [
-                                { id: 103, title: "Accounts Assistant", nodeClass: 'level-4-node', children: [
-                                    { id: 201, title: "Managed ledger posting and journal entries.", nodeClass: 'level-5-node' }
-                                ]}
-                            ]}
-                        ]},
+                {
+                    "name": "Skills",
+                    "children": [
+                        { "name": "Financial Modelling" },
+                        { "name": "Budgeting & Forecasting" },
+                        { "name": "Financial Reporting (IFRS/Ind AS)" },
+                        { "name": "Tax Compliance (GST/TDS/TCS)" },
+                        { "name": "Process Automation/RPA" },
+                        { "name": "Data Analytics & Visualisation" }
                     ]
                 },
-                // --- SKILLS BRANCH (Consolidated) ---
-                { 
-                    id: 300, title: "Skills", expanded: true, nodeClass: 'level-1-node', children: [
-                        // Tech & Automation
-                        { id: 301, title: "Tech & Automation", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 302, title: "Advanced MS Excel / VBA", nodeClass: 'level-3-node' },
-                            { id: 303, title: "Python (RPA, Data Analysis)", nodeClass: 'level-3-node' },
-                            // Bifurcated ERP
-                            { 
-                                id: 304, title: "ERP Systems", expanded: true, nodeClass: 'level-3-node', children: [
-                                    { id: 305, title: "SAP FICO/MM", nodeClass: 'level-4-node' },
-                                    { id: 306, title: "Tally", nodeClass: 'level-4-node' }
-                                ]
-                            },
-                        ]},
-                        // Finance & Compliance
-                        { id: 308, title: "Finance & Compliance", expanded: true, nodeClass: 'level-2-node', children: [
-                            { id: 309, title: "FP&A / MIS / Cost Control", nodeClass: 'level-3-node' },
-                            { id: 310, title: "Accounting & Financial Reporting (GAAP)", nodeClass: 'level-3-node' },
-                            { id: 311, title: "Statutory Taxation (GST, TDS, TCS)", nodeClass: 'level-3-node' },
-                            { id: 312, title: "Statutory & Stock Audit Management", nodeClass: 'level-3-node' },
-                        ]}
+                {
+                    "name": "Tools",
+                    "children": [
+                        { "name": "SAP (FICO/MM)" },
+                        { "name": "Tally" },
+                        { "name": "Advanced Excel" },
+                        { "name": "AI Tools" }
+                    ]
+                },
+                {
+                    "name": "Achievements",
+                    "children": [
+                        { "name": "Built FP&A Function (+30% Speed)" },
+                        { "name": "Managed Liquidity Crisis" },
+                        { "name": "Automated MIS (−80% Manual Effort)" },
+                        { "name": "Fixed Asset Accuracy (+20%)" },
+                        { "name": "57% & 58% Joining Hikes" },
+                        { "name": "17.39% Appraisal" }
+                    ]
+                },
+                {
+                    "name": "Leadership",
+                    "children": [
+                        { "name": "Mentored Team" },
+                        { "name": "Multiplier" },
+                        { "name": "Cost efficient team building" },
+                        { "name": "Capability Building" }
+                    ]
+                },
+                {
+                    "name": "Education",
+                    "children": [
+                        { "name": "M.Com (IGNOU)" },
+                        { "name": "M.B.A FM (IGNOU)" },
+                        { "name": "PGDIBO (IGNOU)" }, /* CORRECTED FROM PGDIB */
+                        { "name": "B.Com (DU)" },
+                        { "name": "CA CPT (ICAI)" }
+                    ]
+                },
+                {
+                    "name": "Certifications",
+                    "children": [
+                        { "name": "NISM 15" },
+                        { "name": "PwC GST" },
+                        { "name": "Financial Modelling (TWSS)" },
+                        { "name": "Private Equity & VC (Bocconi)" },
+                        { "name": "Finance for Managers (IESE)" },
+                        { "name": "Google Data Analytics" },
+                        { "name": "AI for Everyone (DeepMind)" },
+                        { "name": "EY AI Essentials (2025)" }
+                    ]
+                },
+                {
+                    "name": "Projects",
+                    "children": [
+                        { "name": "Cash Flow Analytics Dashboard" },
+                        { "name": "Interactive Python Dashboard" },
+                        { "name": "AI Finance Tools" }
+                    ]
+                },
+                {
+                    "name": "Recognition & Activities",
+                    "children": [
+                        { "name": "Winner NSE Quiz" },
+                        { "name": "Rank 3 Economics Quiz" },
+                        { "name": "Robinhood Army Volunteer" }
                     ]
                 }
             ]
         };
 
-        // --- MIND MAP JS FUNCTIONS START ---
-        
-        // Global Mind Map variables
-        const mindMapRootElement = document.getElementById('mindmap-root');
-        const svgElement = document.getElementById('mindmap-svg');
-        let animationFrameId = null;
+        // --- D3.JS INITIALIZATION - Cluster for No Overlap, Color-Coded Branches ---
+        let i = 0, duration = 750, root;
+        const margin = { top: 20, right: 150, bottom: 20, left: 150 }; // Tight for pro
+        let svg, g, container; 
+        let cluster; // Use cluster for compact no-overlap
+        let mindMapInitialized = false; // Prevent re-init
 
-        /**
-         * Recursively sets the 'expanded' flag to false for all non-root nodes.
-         */
-        window.collapseAllNodes = function(node) {
-            if (node && 'expanded' in node) {
-                // Only collapse if it's not the root node (id: 0)
-                if (node.id !== 0) {
-                    node.expanded = false;
-                }
-            }
-            if (node && node.children) {
-                node.children.forEach(child => window.collapseAllNodes(child));
-            }
-        }
-        
-        // Ensure initial data state is collapsed, except for root
-        window.collapseAllNodes(mindMapData);
+        // Branch colors (extend Tailwind)
+        const branchColors = {
+            'Expertise': '#10b981', // Green
+            'Skills': '#3b82f6', // Blue
+            'Tools': '#6b7280', // Gray
+            'Achievements': '#f59e0b', // Amber
+            'Leadership': '#ef4444', // Red
+            'Education': '#8b5cf6', // Violet
+            'Certifications': '#06b6d4', // Cyan
+            'Projects': '#14b8a6', // Teal
+            'Recognition & Activities': '#f97316' // Orange
+        };
 
-        // --- UTILITY FUNCTIONS ---
-        window.findNodeById = function(current, id) {
-            if (current.id === id) return current;
-            if (current.children) {
-                for (const child of current.children) {
-                    const found = window.findNodeById(child, id);
-                    if (found) return found;
-                }
-            }
-            return null;
-        }
-        
-        window.debounce = function(func, delay) {
-            let timeout;
-            return function(...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), delay);
-            };
-        }
+        // Wrap function - increased maxWidth to reduce wrapping and improve single-line readability
+        function wrap(texts, maxWidth) {
+            texts.each(function() {
+                var text = d3.select(this),
+                    words = text.text().split(/\s+/).reverse(),
+                    word,
+                    line = [],
+                    lineNumber = 0,
+                    lineHeight = 1.1,
+                    x = text.attr("x"),
+                    y = text.attr("y"),
+                    dy = parseFloat(text.attr("dy")),
+                    tspan = text.text(null)
+                                .append("tspan")
+                                .attr("x", x)
+                                .attr("y", y)
+                                .attr("dy", dy + "em")
+                                .attr("text-anchor", text.attr("text-anchor"));
 
-        // --- RENDERING & LINE DRAWING (The Mind Map Logic) ---
-
-        /**
-         * Renders a single node and recursively its children, laying them out horizontally.
-         */
-        window.renderNode = function(node, parentElement) {
-            const nodeContainer = document.createElement('div');
-            nodeContainer.classList.add('node-container', 'flex', 'flex-row', 'items-center', 'relative');
-            nodeContainer.dataset.nodeId = node.id;
-            nodeContainer.dataset.parentId = node.parentId; 
-
-            // Create Node Content (The box)
-            const content = document.createElement('div');
-            // Accessibility & Focus
-            content.setAttribute('tabindex', '0');
-            content.setAttribute('role', node.children && node.children.length > 0 ? 'button' : 'listitem');
-
-            let nodeClasses = ['node-content', 'inline-flex', 'items-center', 'justify-center', 'select-none', 'whitespace-nowrap', 'transition', 'duration-150', 'hover:shadow-xl'];
-            
-            // Assign specific class based on level
-            if (node.isRoot) {
-                nodeClasses.push('root-node');
-            } else if (node.nodeClass === 'level-1-node') {
-                nodeClasses.push('level-1-node');
-            } else if (node.nodeClass === 'level-2-node') {
-                nodeClasses.push('level-2-node');
-            } else if (node.nodeClass === 'level-3-node') {
-                nodeClasses.push('level-3-node');
-            } else if (node.nodeClass === 'level-4-node') {
-                nodeClasses.push('level-4-node');
-            } else if (node.nodeClass === 'level-5-node') {
-                nodeClasses.push('level-5-node');
-            }
-            
-            content.classList.add(...nodeClasses);
-            content.innerHTML = `<span>${node.title.replace('\n', '<br>')}</span>`;
-
-            nodeContainer.appendChild(content);
-
-            // Add Collapsible Icon and Logic if node has children
-            if (node.children && node.children.length > 0) {
-                const icon = document.createElement('span');
-                icon.classList.add('collapse-icon', 'text-white/80', 'font-bold');
-                icon.innerHTML = node.expanded ? '&#9660;' : '&#9654;'; // ▼ for expanded, ► for collapsed
-                
-                content.setAttribute('aria-expanded', node.expanded);
-
-                content.appendChild(icon);
-                
-                const toggle = () => {
-                    // Use closure to capture the node and icon
-                    window.toggleCollapse(node, icon);
-                };
-
-                // Add event listeners for both click and keyboard (Enter/Space)
-                content.addEventListener('click', toggle);
-                content.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggle();
+                while (word = words.pop()) {
+                    line.push(word);
+                    tspan.text(line.join(" "));
+                    if (tspan.node().getComputedTextLength() > maxWidth && line.length > 1) {
+                        line.pop();
+                        tspan.text(line.join(" "));
+                        line = [word];
+                        tspan = text.append("tspan")
+                                    .attr("x", x)
+                                    .attr("y", y)
+                                    .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                                    .attr("text-anchor", text.attr("text-anchor"))
+                                    .text(word);
                     }
+                }
+            });
+        }
+
+        function setupSvg() {
+            container = document.getElementById('tree-svg-container');
+            // Remove existing SVG to prevent duplicates on re-init attempts
+            d3.select("#tree-svg-container").select("svg").remove(); 
+            svg = d3.select("#tree-svg-container").append("svg").attr("id", "tree-svg");
+            g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+            cluster = d3.cluster().separation((a, b) => (a.parent == b.parent ? 3 : 5)); 
+        }
+
+        function collapse(d) {
+            if (d.children) {
+                d._children = d.children;
+                d._children.forEach(collapse);
+                d.children = null;
+            }
+        }
+        
+        function click(event, d) {
+            if (d.children) {
+                d._children = d.children;
+                d.children = null;
+            } else if (d._children) {
+                d.children = d._children;
+                d._children = null;
+            }
+            update(d);
+        }
+
+        function update(source) {
+            // Recalculate size based on current container dimensions
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
+            cluster.size([Math.max(height, 800), width]); // Use current or min size for cluster layout
+
+            const treeDataComputed = cluster(root);
+            const nodes = treeDataComputed.descendants();
+            const links = treeDataComputed.descendants().slice(1);
+
+            nodes.forEach(d => { d.y = d.depth * 250; }); 
+
+            // Calculate extents to determine required SVG dimensions and translation
+            const vertical_rel = nodes.map(d => d.x);
+            const min_v = d3.min(vertical_rel) || 0;
+            const max_v = d3.max(vertical_rel) || 0;
+            const extent_v = max_v - min_v;
+            const padding = 150;
+
+            const requiredHeight = extent_v + margin.top + margin.bottom + 2 * padding;
+            const maxDepthY = d3.max(nodes, d => d.y) || width;
+            const requiredWidth = maxDepthY + margin.left + margin.right + 100;
+
+            // Final SVG dimensions (ensuring it's large enough for content and container)
+            const finalSvgHeight = Math.max(containerHeight, requiredHeight);
+            const finalSvgWidth = Math.max(containerWidth, requiredWidth);
+
+            svg.transition().duration(duration)
+               .attr("width", finalSvgWidth + 'px')
+               .attr("height", finalSvgHeight + 'px');
+
+            // Center the graph vertically in the calculated space
+            const rootScreenX = margin.left + 50;
+            // Calculate the Y translation to center the graph vertically
+            const rootScreenY = margin.top + padding - min_v; 
+            
+            g.transition().duration(duration).attr("transform", `translate(${rootScreenX}, ${rootScreenY})`);
+            
+
+            // Nodes
+            const node = g.selectAll('g.node').data(nodes, d => d.id || (d.id = ++i));
+            const nodeEnter = node.enter().append('g').attr('class', 'node')
+                .attr('transform', d => `translate(${source.y0},${source.x0})`)
+                .on('click', click);
+
+            nodeEnter.append('circle').attr('r', 1e-6)
+                .attr('class', d => d._children ? 'node--internal' : 'node--leaf')
+                .style("fill", d => {
+                    if (d.depth === 0) return '#1e40af'; // Root navy
+                    // Use parent's name to determine branch color
+                    const branchName = d.depth === 1 ? d.data.name : (d.parent ? d.parent.data.name : 'Unknown');
+                    if (branchName in branchColors) return branchColors[branchName];
+                    if (d.children || d._children) return '#64748b'; // Collapsed slate
+                    return '#0d9488'; // Leaf teal
+                })
+                .style("stroke", d => {
+                    if (d.depth === 0) return '#1d4ed8'; // Navy stroke
+                    return (d.children || d._children) ? '#475569' : '#0f766e';
                 });
-            }
 
-            parentElement.appendChild(nodeContainer);
+            const texts = nodeEnter.append('text').attr("dy", ".35em").attr("x", 10).attr("text-anchor", "start")
+                .text(d => d.data.name);
+            wrap(texts, 250); 
+            texts.clone(true).lower().attr('class', 'text-outline');
 
-            // Create Children Wrapper (to hold sub-nodes vertically)
-            if (node.children && node.children.length > 0) {
-                const childrenWrapper = document.createElement('div');
-                childrenWrapper.classList.add('children-wrapper');
-                childrenWrapper.id = `children-of-${node.id}`;
-                
-                // Add specific spacing classes for vertical siblings
-                if (node.nodeClass === 'root-node') childrenWrapper.classList.add('level-1-children');
-                else if (node.nodeClass === 'level-1-node') childrenWrapper.classList.add('level-2-children');
-                else if (node.nodeClass === 'level-2-node') childrenWrapper.classList.add('level-3-children');
-                else if (node.nodeClass === 'level-3-node') childrenWrapper.classList.add('level-4-children');
-                else if (node.nodeClass === 'level-4-node') childrenWrapper.classList.add('level-5-children');
+            const nodeUpdate = nodeEnter.merge(node);
+            nodeUpdate.transition().duration(duration)
+                .attr('transform', d => `translate(${d.y},${d.x})`);
 
+            wrap(nodeUpdate.select('text'), 250);
+            nodeUpdate.select('text').clone(true).lower().attr('class', 'text-outline');
 
-                if (!node.expanded) {
-                    childrenWrapper.classList.add('hidden'); 
-                }
-
-                nodeContainer.appendChild(childrenWrapper); 
-
-                // Recursive call for children
-                node.children.forEach(child => {
-                    child.parentId = node.id;
-                    window.renderNode(child, childrenWrapper);
+            nodeUpdate.select('circle')
+                .attr('r', 7) 
+                .style("fill", d => {
+                    if (d.depth === 0) return '#1e40af';
+                    const branchName = d.depth === 1 ? d.data.name : (d.parent ? d.parent.data.name : 'Unknown');
+                    if (branchName in branchColors) return branchColors[branchName];
+                    if (d.children) return '#3b82f6'; // Expanded blue
+                    if (d._children) return '#64748b';
+                    return '#0d9488';
+                })
+                .style("stroke", d => {
+                    if (d.depth === 0) return '#1d4ed8';
+                    return (d.children || d._children) ? '#475569' : '#0f766e';
                 });
-            }
-        }
 
+            const nodeExit = node.exit().transition().duration(duration)
+                .attr('transform', d => `translate(${source.y},${source.x})`).remove();
+            nodeExit.select('circle').attr('r', 1e-6);
+            nodeExit.select('text').style('fill-opacity', 1e-6);
 
-        /**
-         * Toggles the expanded state of a node and re-draws the map.
-         */
-        window.toggleCollapse = function(node, icon) {
-            node.expanded = !node.expanded;
-            
-            const childrenWrapper = document.getElementById(`children-of-${node.id}`);
-            
-            if (childrenWrapper) {
-                if (node.expanded) {
-                    childrenWrapper.classList.remove('hidden');
-                    icon.innerHTML = '&#9660;'; // ▼
-                } else {
-                    childrenWrapper.classList.add('hidden');
-                    icon.innerHTML = '&#9654;'; // ►
-                }
-            }
+            // Links
+            const link = g.selectAll('path.link').data(links, d => d.id);
+            const linkEnter = link.enter().insert('path', "g").attr("class", "link")
+                .attr('d', d => {
+                    const o = { x: source.x0, y: source.y0 };
+                    return diagonal(o, o);
+                });
 
-            const nodeContent = document.querySelector(`[data-node-id="${node.id}"] .node-content`);
-            if (nodeContent) {
-                   nodeContent.setAttribute('aria-expanded', node.expanded);
-            }
-            
-            // Debounce the line drawing
-            window.debouncedDrawLines(); 
-        }
+            const linkUpdate = linkEnter.merge(link);
+            linkUpdate.transition().duration(duration)
+                .attr('d', d => diagonal(d, d.parent));
 
-        /**
-         * Draws the Tree Connector.
-         */
-        window.drawLines = function() {
-            if (!svgElement) return; // Guard in case the element isn't ready
-            svgElement.innerHTML = ''; 
-            
-            const container = document.getElementById('mindmap-container');
-            if (!container) return; // Guard for container
-            
-            const containerRect = container.getBoundingClientRect();
-            
-            // Find map bounds
-            let mapMinX = Infinity;
-            let mapMinY = Infinity;
-            let mapMaxX = 0;
-            let mapMaxY = 0;
+            link.exit().transition().duration(duration)
+                .attr('d', d => {
+                    const o = { x: source.x, y: source.y };
+                    return diagonal(o, o);
+                }).remove();
 
-            // Get all node rectangles to determine the total size of the map content
-            document.querySelectorAll('#mindMapModal .node-content').forEach(el => {
-                const rect = el.getBoundingClientRect();
-                mapMinX = Math.min(mapMinX, rect.left);
-                mapMinY = Math.min(mapMinY, rect.top);
-                mapMaxX = Math.max(mapMaxX, rect.right);
-                mapMaxY = Math.max(mapMaxY, rect.bottom);
-            });
+            nodes.forEach(d => { d.x0 = d.x; d.y0 = d.y; });
 
-            // If no nodes are visible, stop drawing
-            if (mapMinX === Infinity) return;
-
-
-            // Adjust SVG size to cover all content plus padding/scroll
-            const scrollX = container.scrollLeft;
-            const scrollY = container.scrollTop;
-            
-            // Calculate size based on content and scroll
-            const svgWidth = (mapMaxX - containerRect.left) + scrollX + 50; 
-            const svgHeight = (mapMaxY - containerRect.top) + scrollY + 50;
-            
-            svgElement.setAttribute('width', svgWidth + 'px');
-            svgElement.setAttribute('height', svgHeight + 'px');
-            
-            const parentNodes = document.querySelectorAll('#mindMapModal .node-container'); 
-
-            parentNodes.forEach(parentNodeContainer => {
-                const parentId = parseInt(parentNodeContainer.dataset.nodeId);
-                const parentNodeData = window.findNodeById(mindMapData, parentId);
-                
-                if (parentNodeData && parentNodeData.expanded && parentNodeData.children) {
-                    const childrenWrapper = document.getElementById(`children-of-${parentId}`);
-                    if (!childrenWrapper || childrenWrapper.classList.contains('hidden')) return;
-
-                    const parentContent = parentNodeContainer.querySelector('.node-content');
-                    if (!parentContent) return;
-
-                    const parentRect = parentContent.getBoundingClientRect();
-                    
-                    // --- 1. Calculate Parent Connection Point (Relative to SVG origin) ---
-                    const startX = parentRect.right - containerRect.left + scrollX;
-                    const startY = parentRect.top - containerRect.top + scrollY + parentRect.height / 2;
-                    
-                    // --- 2. Calculate Children Stack Bounds ---
-                    const visibleChildren = parentNodeData.children.map(child => {
-                        const childContainer = document.querySelector(`[data-node-id="${child.id}"]`);
-                        if (childContainer && childContainer.offsetParent !== null && !childContainer.closest('.hidden')) {
-                            const childContent = childContainer.querySelector('.node-content');
-                            if (childContent) {
-                                const rect = childContent.getBoundingClientRect();
-                                return {
-                                    rect: rect,
-                                    // Calculate relative to SVG origin (taking container scroll into account)
-                                    x: rect.left - containerRect.left + scrollX, 
-                                    y: rect.top - containerRect.top + scrollY + rect.height / 2 
-                                };
-                            }
-                        }
-                        return null;
-                    }).filter(c => c !== null);
-
-                    if (visibleChildren.length === 0) return;
-
-                    // The Anchor Point (Vertical Spine Position)
-                    const anchorX = startX + 30; 
-                    
-                    const firstChildY = visibleChildren[0].y;
-                    const lastChildY = visibleChildren[visibleChildren.length - 1].y;
-
-                    // --- 3. Draw Main Connector (Horizontal + Vertical Spine) ---
-                    const mainPath = document.createElementNS("http://www.w3.org/2000/svg", 'path');
-                    
-                    const spinePath = `M ${startX} ${startY} 
-                                       H ${anchorX} 
-                                       M ${anchorX} ${firstChildY} 
-                                       V ${lastChildY}`;
-                                       
-                    mainPath.setAttribute('d', spinePath);
-                    mainPath.classList.add('connector-line');
-                    svgElement.appendChild(mainPath);
-
-                    // --- 4. Draw Spokes to Each Child ---
-                    visibleChildren.forEach(child => {
-                        const spokePath = document.createElementNS("http://www.w3.org/2000/svg", 'path');
-                        
-                        const dPath = `M ${anchorX} ${child.y} 
-                                       H ${child.x}`;
-                                       
-                        spokePath.setAttribute('d', dPath);
-                        spokePath.classList.add('connector-line');
-                        svgElement.appendChild(spokePath);
-                    });
-                }
-            });
-        }
-        
-        // Debounced version of drawLines for performance stabilization
-        window.debouncedDrawLines = window.debounce(window.drawLines, 50);
-
-        /**
-         * Cleans up the mind map by removing lines and listeners.
-         */
-        window.stopLineDrawing = function() {
-            if (svgElement) svgElement.innerHTML = '';
-            const container = document.getElementById('mindmap-container');
-            if (container) {
-                 container.removeEventListener('scroll', window.debouncedDrawLines);
-            }
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-                animationFrameId = null;
-            }
-        }
-
-        /**
-         * Main initialization function
-         */
-        window.initializeMindMap = function() {
-            if (!mindMapRootElement) return;
-
-            // Clear and re-render the map structure
-            mindMapRootElement.innerHTML = ''; 
-            
-            // Re-collapse all nodes (to ensure it resets if it was expanded)
-            window.collapseAllNodes(mindMapData);
-
-            const rootContainer = document.createElement('div');
-            rootContainer.classList.add('flex', 'flex-row', 'items-center');
-            
-            // 1. Create the Root Node Content
-            const rootContentContainer = document.createElement('div');
-            rootContentContainer.classList.add('node-container', 'flex', 'flex-row', 'items-center', 'relative');
-            rootContentContainer.dataset.nodeId = mindMapData.id;
-            
-            const rootContent = document.createElement('div');
-            rootContent.classList.add('node-content', 'root-node', 'inline-flex', 'items-center', 'justify-center');
-            rootContent.innerHTML = `<span>${mindMapData.title.replace('\n', '<br>')}</span>`; 
-            rootContentContainer.appendChild(rootContent);
-            
-            mindMapRootElement.appendChild(rootContentContainer);
-
-            // 2. Render Children (Level 1 branches) into a wrapper that is right of the root node
-            const childrenWrapper = document.createElement('div');
-            childrenWrapper.classList.add('children-wrapper', 'level-0-children'); 
-            childrenWrapper.id = `children-of-${mindMapData.id}`;
-            childrenWrapper.style.gap = '2.5rem'; 
-
-            mindMapData.children.forEach(child => {
-                child.parentId = mindMapData.id;
-                window.renderNode(child, childrenWrapper);
-            });
-            
-            rootContentContainer.appendChild(childrenWrapper);
-
-            // Set up scroll listener for line drawing 
-            document.getElementById('mindmap-container').addEventListener('scroll', window.debouncedDrawLines);
-
-            // Initial draw must be wrapped in requestAnimationFrame to wait for DOM layout
-            requestAnimationFrame(() => requestAnimationFrame(window.debouncedDrawLines)); 
-        }
-
-        // --- CORE APPLICATION LOGIC (Moved and combined from previous script block) ---
-        
-        // --- MODAL CONTROL LOGIC (UPDATED for Mind Map integration) ---
-        // NEW CODE: This is the full playlist embed URL from your provided iframe.
-        // I'm adding &autoplay=1 to the list of parameters.
-        const YOUTUBE_PLAYLIST_URL = `https://www.youtube.com/embed/videoseries?si=9mHBVcTfsvRmGglI&list=PLEfUln3m0PdhgiQzVE2GM8cwd8WqyfWw2&autoplay=1`;
-        
-        // Function to open media modal and start video
-        window.openMediaModal = function() {
-            document.getElementById('mediaModal').style.display = 'block';
-            const youtubeIframe = document.getElementById('youtubeIframe');
-            // Set the src to the NEW PLAYLIST URL to enable playback when modal is opened
-            if (youtubeIframe) {
-                youtubeIframe.src = YOUTUBE_PLAYLIST_URL;
-            }
-        }
-
-        // Function to close media modal and stop video
-        window.closeMediaModal = function() {
-            document.getElementById('mediaModal').style.display = 'none';
-            const youtubeIframe = document.getElementById('youtubeIframe');
-            // Remove the src to stop video playback in the background
-            if (youtubeIframe) {
-                youtubeIframe.src = '';
+            function diagonal(s, d) {
+                return `M ${s.y} ${s.x} C ${(s.y + d.y) / 2} ${s.x}, ${(s.y + d.y) / 2} ${d.x}, ${d.y} ${d.x}`;
             }
         }
         
-        // Mind Map Modal Control (Now initializes the integrated map)
-        window.openMindMapModal = function() {
-            document.getElementById('mindMapModal').style.display = 'block';
-            // IMPORTANT: Initialize and render the mind map now that the modal is visible
-            window.initializeMindMap();
+        function resizeAndDraw() {
+            if (root) {
+                update(root);
+            }
         }
 
-        // Function to close mind map modal and stop line drawing/listeners
-        window.closeMindMapModal = function() {
-            document.getElementById('mindMapModal').style.display = 'none';
-            window.stopLineDrawing(); // Clean up listeners and SVG lines
+        // NEW: Modal-Adapted Init Function (Replaces window.onload)
+        function initMindMap() {
+            if (mindMapInitialized) {
+                // If already initialized, just ensure redraw on current dimensions
+                resizeAndDraw();
+                return;
+            }
+            
+            mindMapInitialized = true; // Set flag early
+            setupSvg(); 
+            root = d3.hierarchy(treeData, d => d.children);
+            
+            // Set initial collapse state
+            root.children.forEach(collapse);
+            
+            // Initial draw needs current dimensions
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
+            cluster.size([Math.max(height, 800), width]);
+            root.x0 = height / 2;
+            root.y0 = 0;
+
+            update(root); // Perform initial update
+            
+            // FIX: Ensure listener is only attached ONCE
+            window.addEventListener('resize', resizeAndDraw);
+            gtag('event', 'modal_open', { 'event_category': 'engagement', 'event_label': 'mind_map_viewed' });
         }
-        
+
         // --- ACHIEVEMENT TAB LOGIC (UNCHANGED) ---
         window.openTab = function(evt, tabName) {
             const tabcontent = document.getElementsByClassName("tab-content");
@@ -2075,7 +1887,7 @@
             const tablinks = document.querySelectorAll(".flex:has(button[onclick^='window.openTab']) .tab-button");
             for (let i = 0; i < tablinks.length; i++) {
                 tablinks[i].classList.remove("active-tab");
-                tablinks[i].style.borderBottomColor = "transparent";
+                // Removed explicit style setting: tablinks[i].style.borderBottomColor = "transparent";
                 tablinks[i].setAttribute('aria-selected', 'false');
             }
             const currentTab = document.getElementById(tabName);
@@ -2083,7 +1895,7 @@
             currentTab.setAttribute('aria-hidden', 'false');
             if (evt && evt.currentTarget) {
                 evt.currentTarget.classList.add("active-tab");
-                evt.currentTarget.style.borderBottomColor = "#238636";
+                // Removed redundant explicit style setting
                 evt.currentTarget.setAttribute('aria-selected', 'true');
             }
             document.getElementById('achievementsContainer').scrollTop = 0;
@@ -2099,7 +1911,7 @@
             const tabButtons = document.getElementsByClassName("skills-tab-button");
             for (let i = 0; i < tabButtons.length; i++) {
                 tabButtons[i].classList.remove("active-tab");
-                tabButtons[i].style.borderBottomColor = "transparent";
+                // Removed explicit style setting: tabButtons[i].style.borderBottomColor = "transparent";
                 tabButtons[i].setAttribute('aria-selected', 'false');
             }
             const currentTab = document.getElementById(tabName);
@@ -2107,7 +1919,7 @@
             currentTab.setAttribute('aria-hidden', 'false');
             if (evt && evt.currentTarget) {
                 evt.currentTarget.classList.add("active-tab");
-                evt.currentTarget.style.borderBottomColor = "#238636";
+                // Removed redundant explicit style setting
                 evt.currentTarget.setAttribute('aria-selected', 'true');
             }
             document.getElementById('skillsTabContent').scrollTop = 0;
@@ -2128,7 +1940,7 @@
             }
         }
 
-        // --- CERTIFICATION DATA AND SORTING & FILTERING LOGIC (UNCHANGED) ---
+        // --- CERTIFICATION DATA AND SORTING & FILTERING LOGIC (FIXED SCOPE) ---
         var certifications = [
             // Core Certs (isCoreCert: true)
             { title: 'CA CPT', issuer: 'ICAI', date: 20180101, displayDate: '2018', relevance: 1, priority: 1, domain: 'Finance & Accounts', score: '71.5%', isCoreCert: true }, 
@@ -2162,6 +1974,7 @@
         var currentSort = 'relevance'; 
         var currentFilter = 'All'; 
 
+        // FIX: Explicitly attach to window object
         window.renderCertifications = function() {
             var listElement = document.getElementById('professionalDevelopmentList');
             if (!listElement) { console.error("Target element 'professionalDevelopmentList' not found."); return; }
@@ -2201,6 +2014,7 @@
             if (scrollContainer) { scrollContainer.scrollTop = 0; }
         }
 
+        // FIX: Explicitly attach to window object
         window.sortCertifications = function(sortType) {
             currentSort = sortType;
             document.querySelectorAll('.sort-button').forEach(function(btn) {
@@ -2216,16 +2030,18 @@
             window.renderCertifications();
         }
 
+        // FIX: Explicitly attach to window object
         window.filterCertifications = function(domain) {
             currentFilter = domain;
             window.renderCertifications();
         }
 
+        // FIX: Explicitly attach to window object
         window.renderCoreCerts = function(coreCerts) { 
             const listElement = document.getElementById('coreCertList'); 
             if (!listElement) { console.error("Target element 'coreCertList' not found."); return; }
             
-            const TODAY_DATE = 20251024; // Oct 24, 2025 (Updated date)
+            const TODAY_DATE = 20251101; // Nov 1, 2025
 
             coreCerts.sort((a, b) => a.priority - b.priority); 
             
@@ -2234,7 +2050,7 @@
                 let dateColorClass = 'text-white';
                 let scoreHtml = cert.score ? 
                     `<span class="cert-tag-detail text-gray-600 mx-1">|</span>
-                     <span class="cert-tag-detail text-white font-bold">${cert.score}</span>` : '';
+                    <span class="cert-tag-detail text-white font-bold">${cert.score}</span>` : '';
                 
                 if (cert.expiryDate) {
                     if (TODAY_DATE >= cert.expiryDate) {
@@ -2257,21 +2073,19 @@
             }).join('');
         }
         
-        // --- PITCH INTEGRATION LOGIC (UNCHANGED) ---
-        // 1. API Key updated with user's provided key
-        const apiKey = "AIzaSyA7mpJyL21zh1vfxlodZthXR7wSh5os_Pc"; 
+        // --- PITCH INTEGRATION LOGIC (UPDATED API KEY) ---
+        // FIX: Replaced hardcoded API Key with empty string for runtime injection by Canvas
+        const apiKey = ""; 
         const TTS_MODEL = 'gemini-2.5-flash-preview-tts';
-        // 2. Voice updated back to Charon as requested
         const VOICE_NAME = "Charon"; 
 
         // Hardcoded pitch from user - UPDATED PITCH TEXT (More punchy and value-focused)
         const FINAL_ELEVATOR_PITCH = `Say in a confident, authoritative, and executive tone, with a slight Indian accent:
-            <b>Is your financial reporting still a manual chore?</b> I'm Navneet Chaudhary, Assistant Manager of F\&A, an automation strategist who drives 80\% efficiency gains. With six years of cross-functional expertise from GST to FP\&A, I eliminate repetitive tasks, build Python-powered systems, and free up teams for strategic work. I bring immediate, quantifiable impact. My track record isn't just compliance, it's transformation. Let's discuss how I can implement true digital financial control in your organization. Chat with Zenith, my AI-powered assistant, for any immediate questions.
+            <b>Is your financial reporting still a manual chore?</b> I'm Navneet Chaudhary, Assistant Manager of F&A, an automation strategist who drives 80% efficiency gains. With six years of cross-functional expertise from GST to FP&A, I eliminate repetitive tasks, build Python-powered systems, and free up teams for strategic work. I bring immediate, quantifiable impact. My track record isn't just compliance, it's transformation. Let's discuss how I can implement true digital financial control in your organization. Chat with Zenith, my AI-powered assistant, for any immediate questions.
         `;
 
         // --- DOM Elements ---
         const playPitchButton = document.getElementById('playPitchButton');
-        const statusLight = document.getElementById('statusLight');
         const pitchContent = document.getElementById('pitchContent');
         const pitchOutput = document.getElementById('pitchOutput');
         const pitchStatus = document.getElementById('pitchStatus');
@@ -2306,10 +2120,16 @@
             if (audioInstance) {
                 audioInstance.pause();
                 audioInstance.currentTime = 0;
-                URL.revokeObjectURL(audioInstance.src); 
+                // Only revoke URL if it exists to avoid errors on non-playing state
+                if (audioInstance.src && audioInstance.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(audioInstance.src); 
+                }
                 audioInstance = null;
             }
-            cancelAnimationFrame(window.animationFrameId);
+            if (window.animationFrameId) {
+                cancelAnimationFrame(window.animationFrameId);
+                window.animationFrameId = null;
+            }
             isProcessing = false;
             playPitchButton.disabled = false;
             playPitchButton.querySelector('span').textContent = 'Play Pitch';
@@ -2317,8 +2137,6 @@
             
             pitchStatus.innerHTML = "Pitch stopped. Click 'Play Pitch' to resume.";
             setProgress(0);
-            statusLight.classList.remove('status-speaking');
-            statusLight.classList.add('status-idle');
         }
 
 
@@ -2336,13 +2154,14 @@
         function pcmToWav(pcmData, sampleRate) {
             const numChannels = 1;
             const bytesPerSample = 2;
-            const buffer = new ArrayBuffer(44 + pcmData.byteLength);
+            const pcm16 = new Int16Array(pcmData);
+            const buffer = new ArrayBuffer(44 + pcm16.byteLength);
             const view = new DataView(buffer);
             let offset = 0;
             function writeString(str) {
                 for (let i = 0; i < str.length; i++) { view.setUint8(offset++, str.charCodeAt(i)); }
             }
-            writeString('RIFF'); view.setUint32(offset, 36 + pcmData.byteLength, true); offset += 4;
+            writeString('RIFF'); view.setUint32(offset, 36 + pcm16.byteLength, true); offset += 4;
             writeString('WAVE');
             writeString('fmt '); view.setUint32(offset, 16, true); offset += 4;
             view.setUint16(offset, 1, true); offset += 2; 
@@ -2351,8 +2170,9 @@
             view.setUint32(offset, sampleRate * numChannels * bytesPerSample, true); offset += 4;
             view.setUint16(offset, numChannels * bytesPerSample, true); offset += 2;
             view.setUint16(offset, 16, true); offset += 2; 
-            writeString('data'); view.setUint32(offset, pcmData.byteLength, true); offset += 4;
-            new Int16Array(buffer, offset).set(new Int16Array(pcmData));
+            writeString('data'); view.setUint32(offset, pcm16.byteLength, true); offset += 4;
+            // FIX: Simplified Int16Array setting for robust buffer handling
+            new Int16Array(buffer, offset).set(pcm16);
             return new Blob([buffer], { type: 'audio/wav' });
         }
 
@@ -2386,15 +2206,12 @@
                 const elapsed = timestamp - startTime;
                 const percent = Math.min(100, (elapsed / durationMs) * 100);
                 setProgress(percent);
-                if (percent < 100 && !audioInstance.paused) {
+                if (percent < 100 && audioInstance && !audioInstance.paused) {
                     window.animationFrameId = requestAnimationFrame(updateProgress);
                 } else if (percent >= 100) {
                     setProgress(100); // Ensure it reaches 100%
                 }
             };
-            
-            statusLight.classList.add('status-speaking');
-            statusLight.classList.remove('status-idle');
             
             playPitchButton.disabled = false; // Allow stopping
             playPitchButton.querySelector('span').textContent = 'Stop Pitch';
@@ -2408,28 +2225,18 @@
             }
 
             audioInstance.onended = () => {
-                cancelAnimationFrame(window.animationFrameId);
-                setProgress(100);
-                statusLight.classList.remove('status-speaking');
-                statusLight.classList.add('status-idle');
-                playPitchButton.disabled = false;
-                playPitchButton.querySelector('span').textContent = 'Play Pitch'; 
-                pitchButtonIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197 2.132A1 1 0 0110 13.73v-3.46a1 1 0 011.555-.832l3.197 2.132z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'; // Play icon
+                stopAudioAndReset(); // Use reset function on end
                 pitchStatus.innerHTML = '<span class="text-[#238636] font-semibold">Pitch delivered successfully. Click to play again.</span>';
-                URL.revokeObjectURL(audioUrl); 
-                audioInstance = null;
-                isProcessing = false; // Reset processing flag after full cycle
             };
 
             audioInstance.onerror = (e) => {
-                cancelAnimationFrame(window.animationFrameId);
                 console.error("Audio playback error:", e);
                 pitchStatus.innerHTML = '<span class="text-red-500 font-semibold">Audio playback failed. Pitch text available.</span>';
-                stopAudioAndReset(); // Use reset function to handle error state fully
+                stopAudioAndReset(); 
             };
 
             audioInstance.play().catch(e => {
-                 cancelAnimationFrame(window.animationFrameId);
+                 // Handle autoplay policy restriction (common on first click)
                  console.warn("Autoplay prevented:", e);
                  isProcessing = false;
                  playPitchButton.disabled = false;
@@ -2437,8 +2244,6 @@
                  pitchButtonIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197 2.132A1 1 0 0110 13.73v-3.46a1 1 0 011.555-.832l3.197 2.132z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'; // Play icon
                  pitchStatus.innerHTML = '<span class="text-yellow-500 font-semibold">Playback requires user interaction. Click the button again.</span>';
                  setProgress(0);
-                 statusLight.classList.remove('status-speaking');
-                 statusLight.classList.add('status-idle');
             });
         }
 
@@ -2448,10 +2253,6 @@
             playPitchButton.querySelector('span').textContent = 'Synthesizing...';
             pitchStatus.textContent = "The introduction audio is synthesizing...";
             
-            statusLight.classList.remove('status-idle');
-            statusLight.classList.remove('status-speaking'); // Remove speaking class if present
-            statusLight.style.backgroundColor = '#f59e0b'; // Amber for synthesizing
-            statusLight.style.boxShadow = '0 0 10px #f59e0b';
             pitchButtonIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 0014.28 2.052L17.5 5.3m-1.761 4.717a1 1 0 01-1.292.213L10 8l-.3 1.5M4 12a8 8 0 0015.356 2.052L17.5 17.3m-1.761-4.717a1 1 0 01-1.292.213L10 16l-.3 1.5"></path>'; // Load icon
             
             setProgress(0);
@@ -2459,10 +2260,7 @@
         }
         
         async function callGeminiTtsApi(text) {
-            // Corrected API URL domain
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${TTS_MODEL}:generateContent?key=${apiKey}`;
-            
-            // Note: We remove HTML tags before sending the text to TTS, as TTS only processes plain text.
             const plainText = text.replace(/<[^>]*>?/gm, '').trim();
 
             const payload = {
@@ -2490,20 +2288,17 @@
                         const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 16000;
                         
                         const wordCount = plainText.split(/\s+/).length;
-                        // Estimate duration: 250ms per word is a standard, quick estimate.
                         const estimatedDurationMs = wordCount * 250; 
                         
                         return { audioData, sampleRate, estimatedDurationMs };
                     }
-                    // Handle non-200 responses with an informative error
                     if (!response.ok) {
                         const errorBody = JSON.stringify(result, null, 2);
                         throw new Error(`API returned status ${response.status}. Body: ${errorBody}`);
                     }
-                    // Handle generic API failure or unexpected response structure
                     throw new Error("Invalid TTS response structure or missing audio data.");
                 } catch (error) {
-                    console.error(`Attempt ${i + 1} failed for TTS API:`, error);
+                    // Do not log retries as errors to console
                     if (i < 2) await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
                 }
             }
@@ -2512,7 +2307,6 @@
 
         window.generateElevatorPitch = async function() {
             if (audioInstance) {
-                // If audio is currently playing, stop it and reset UI
                 stopAudioAndReset();
                 return;
             }
@@ -2522,19 +2316,17 @@
 
             try {
                 const pitchText = FINAL_ELEVATOR_PITCH;
-                // Pitch text is HTML for formatting the bold title
-                // We strip the instruction "Say in a confident, authoritative, and executive tone, with a slight Indian accent:" for display
                 const instructionPrefix = 'Say in a confident, authoritative, and executive tone, with a slight Indian accent:';
                 const displayPitchText = pitchText.startsWith(instructionPrefix) 
-                                         ? pitchText.substring(instructionPrefix.length).trim() 
-                                         : pitchText;
+                                             ? pitchText.substring(instructionPrefix.length).trim() 
+                                             : pitchText;
                 pitchOutput.innerHTML = displayPitchText; 
                 
                 const { audioData, sampleRate, estimatedDurationMs } = await callGeminiTtsApi(pitchText);
 
                 const pcmData = base64ToArrayBuffer(audioData);
-                const pcm16 = new Int16Array(pcmData);
-                const wavBlob = pcmToWav(pcm16, sampleRate);
+                // Corrected pcmToWav function usage
+                const wavBlob = pcmToWav(pcmData, sampleRate);
                 
                 playPitchButton.querySelector('span').textContent = 'Stop Pitch';
                 pitchStatus.textContent = "Playing pitch...";
@@ -2542,28 +2334,26 @@
 
             } catch (error) {
                 console.error("Pitch Generation Failure:", error);
-                // Ensure full pitch text is displayed if audio fails
                 const instructionPrefix = 'Say in a confident, authoritative, and executive tone, with a slight Indian accent:';
                 const displayPitchText = FINAL_ELEVATOR_PITCH.startsWith(instructionPrefix) 
-                                         ? FINAL_ELEVATOR_PITCH.substring(instructionPrefix.length).trim() 
-                                         : FINAL_ELEVATOR_PITCH;
+                                             ? FINAL_ELEVATOR_PITCH.substring(instructionPrefix.length).trim() 
+                                             : FINAL_ELEVATOR_PITCH;
                 pitchOutput.innerHTML = displayPitchText; 
                 pitchStatus.innerHTML = '<span class="text-red-500 font-semibold">Critical Failure: Could not generate audio. Pitch text is displayed.</span>';
                 
-                stopAudioAndReset(); // Ensure full reset on critical failure
+                stopAudioAndReset(); 
             }
         }
         
         window.initZenith = function() { 
-            // Set initial status to ready/idle (Red dot, 0 progress)
-            statusLight.classList.add('status-idle');
+            // Set initial status to ready/idle 
             setProgress(0);
             
             // FIX: Ensure the full pitch text without the instruction is displayed.
             const instructionPrefix = 'Say in a confident, authoritative, and executive tone, with a slight Indian accent:';
             let displayPitch = FINAL_ELEVATOR_PITCH.startsWith(instructionPrefix) 
-                                ? FINAL_ELEVATOR_PITCH.substring(instructionPrefix.length).trim()
-                                : FINAL_ELEVATOR_PITCH;
+                                 ? FINAL_ELEVATOR_PITCH.substring(instructionPrefix.length).trim()
+                                 : FINAL_ELEVATOR_PITCH;
                                 
             // Only show the bolded first sentence if available
             const firstSentenceMatch = displayPitch.match(/<b>.*?<\/b>/);
@@ -2576,24 +2366,97 @@
             pitchStatus.textContent = "Click 'Play Pitch' above to hear the introduction (now with executive tone).";
             togglePitchContent(false); // Ensure pitch is collapsed initially
         }
+
+        // Function to open media modal and start video
+        const CURRENT_VIDEO_EMBED_URL = `https://www.youtube.com/embed/videoseries?list=PLEfUln3m0PdhgiQzVE2GM8cwd8WqyfWw2&autoplay=1&rel=0`;
+        
+        // --- FIX 1: Modal Open Robustness (Media Modal) ---
+        window.openMediaModal = function() {
+            document.getElementById('mediaModal').style.display = 'block';
+            const youtubeIframe = document.getElementById('youtubeIframe');
+            
+            // Use setTimeout to allow the modal to fully render and calculate dimensions
+            setTimeout(() => {
+                if (youtubeIframe) {
+                    youtubeIframe.src = CURRENT_VIDEO_EMBED_URL;
+                }
+                gtag('event', 'modal_open', { 'event_category': 'engagement', 'event_label': 'media_viewed' });
+            }, 50); 
+        }
+
+        // Function to close media modal and stop video
+        window.closeMediaModal = function() {
+            document.getElementById('mediaModal').style.display = 'none';
+            const youtubeIframe = document.getElementById('youtubeIframe');
+            if (youtubeIframe) {
+                // Setting src to empty stops playback
+                youtubeIframe.src = '';
+            }
+        }
+        
+        // Mind Map Modal Control (Now initializes the integrated D3 map)
+        // --- FIX 2: Modal Open Robustness & D3 Init (Mind Map Modal) ---
+        window.openMindMapModal = function() {
+            const modal = document.getElementById('mindMapModal');
+            modal.style.display = 'block';
+            
+            // Use setTimeout to ensure the modal is visibly rendered before D3 calculates its SVG bounds
+            setTimeout(() => {
+                if (!mindMapInitialized) {
+                    initMindMap(); // Trigger init on first open
+                } else {
+                     resizeAndDraw(); // Recalculate layout on subsequent opens
+                }
+            }, 50); 
+        }
+
+        // Function to close mind map modal
+        window.closeMindMapModal = function() {
+            document.getElementById('mindMapModal').style.display = 'none';
+        }
         
         // --- Run Initialization on Load ---
+        // FIX: Moved Core Certs and Professional Certs rendering outside of onload
+        // to minimize perceived load time for the Certifications section.
+        const coreCerts = certifications.filter(c => c.isCoreCert === true);
+        window.renderCoreCerts(coreCerts);
+        window.sortCertifications('relevance'); 
+
         window.onload = function() {
-            // Existing profile logic initialization
-            const coreCerts = certifications.filter(c => c.isCoreCert === true);
-            window.renderCoreCerts(coreCerts);
+            
             document.getElementById('filterDomain').value = 'All'; 
-            window.sortCertifications('relevance'); 
+            
             var achievementButton = document.querySelector('.flex:has(button[onclick^="window.openTab"]) .tab-button:first-child');
-            window.openTab({ currentTarget: achievementButton }, 'professional');
-            window.openSkillsTab({ currentTarget: document.querySelector('.skills-tab-button:first-child') }, 'functionalSkills');
+            // Ensure button exists before clicking it to open the default tab
+            if (achievementButton) {
+                window.openTab({ currentTarget: achievementButton }, 'professional');
+            }
+            var functionalSkillsButton = document.querySelector('.skills-tab-button:first-child');
+             if (functionalSkillsButton) {
+                window.openSkillsTab({ currentTarget: functionalSkillsButton }, 'functionalSkills');
+             }
             
             // Pitch Init
             window.initZenith();
-            
-            // Set up line drawing for resize outside the modal's lifecycle
-            window.addEventListener('resize', window.debouncedDrawLines);
+
+            // Close modal on outside click (best practice)
+            window.onclick = function(event) {
+                const mindMapModal = document.getElementById('mindMapModal');
+                const mediaModal = document.getElementById('mediaModal');
+                
+                if (event.target === mindMapModal) {
+                    mindMapModal.style.display = 'none';
+                }
+                if (event.target === mediaModal) {
+                    window.closeMediaModal(); 
+                }
+            }
         };
     </script>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GT-57Z944P3"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
 </body>
 </html>
