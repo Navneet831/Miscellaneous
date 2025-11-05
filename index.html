@@ -30,21 +30,37 @@
     <!-- Load D3.js v7 CDN for the Mind Map -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
     
-    <!-- Google tag (gtag.js) for Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1XL4LRC5PP"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-1XL4LRC5PP');
-    </script>
-
-    <!-- Google Tag Manager -->
+    <!-- Google Tag Manager (Non-Blocking, High Performance) -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GT-57Z944P3');</script>
+    
+    <!-- Microsoft Clarity (Placeholder: CLARITY_PROJECT_ID) -->
+    <!-- The project ID must be replaced by the user from clarity.microsoft.com -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "CLARITY_PROJECT_ID");
+      
+      // Explicitly set Clarity masking to 'full' for max anonymity (PII:0)
+      window.clarity('set', 'mask', 'full'); 
+    </script>
+    
+    <!-- GA4 Anonymity Config via DataLayer - Disables User IDs and Signals -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        // Immediately push configuration for GA4 to disable all user-specific data
+        window.dataLayer.push('config', 'G-1XL4LRC5PP', {
+          'anonymize_ip': true,
+          'allow_google_signals': false, // Disables inferred demographics
+          'user_id': undefined, // Ensures no user ID is collected
+          'send_page_view': false // Page view will be fired by GTM for more control
+        });
+    </script>
 
     <!-- NEW: JSON-LD Structured Data for SEO and Google Jobs Crawl -->
     <script type="application/ld+json">
@@ -668,7 +684,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         <!-- HERO SECTION: Clean, Focused, and Professional -->
-        <header class="mb-6 pt-0"> <!-- REDUCED mb-12 to mb-6, pt-10 to pt-0 -->
+        <header class="mb-6 pt-0" id="header"> <!-- Added ID for Intersection Observer -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                 
                 <!-- Left Column: Photo, Name, Title, and CONSOLIDATED CONTACTS (REDESIGNED) -->
@@ -719,12 +735,13 @@
                         </button>
                         
                         <!-- FOLLOW BUTTON: LinkedIn Link (TEXT: "LinkedIn", ICON: REMOVED) -->
+                        <!-- ONCLICK removed here and added via JS listener -->
                         <a href="https://www.linkedin.com/in/navneet831/" 
                                 target="_blank"
                                 class="follow-button flex-1 px-3 py-1 text-sm font-semibold rounded-lg shadow-md linkedin-btn action-button-3d flex items-center justify-center space-x-1"
                                 aria-label="View Navneet Chaudhary's LinkedIn Profile"
                                 role="button"
-                                onclick="gtag('event', 'link_click', {'event_category': 'social', 'event_label': 'linkedin_follow_button'});">
+                                id="linkedinButton">
                             <!-- SVG Icon REMOVED -->
                             <span>LinkedIn</span>
                         </a>
@@ -757,6 +774,7 @@
                         
                         <!-- Row 1: Download Resume, Portfolio, Check My Availability (Primary Actions, Horizontal) -->
                         <div class="flex flex-wrap justify-center lg:justify-start gap-3">
+                            <!-- ONCLICK removed here and added via JS listener -->
                             <a id="downloadResumeButton"
                                 href="https://drive.google.com/file/d/1UBxBOqUxtL386miSFkWOXQlG5HWMaUS2/view?usp=sharing"
                                 target="_blank"
@@ -768,20 +786,22 @@
                             </a>
                             
                             <!-- 2. Portfolio/Linktree Button -->
+                            <!-- ONCLICK removed here and added via JS listener -->
                             <a href="https://linktr.ee/navneet831" 
                                target="_blank" 
                                class="px-4 py-2 text-sm font-semibold rounded-lg shadow-md flex-grow sm:flex-grow-0 secondary-link-button action-button-3d"
                                role="button" aria-label="View all external links including portfolio"
-                               onclick="gtag('event', 'link_click', {'event_category': 'resume_cta', 'event_label': 'linktree_view'});">
+                               id="portfolioLink">
                                 Portfolio
                             </a>
                             
                             <!-- 3. Check My Availability Button (Blue accent) -->
-                            <!-- UPDATED CTA TEXT AND ARIA LABEL -->
+                            <!-- ONCLICK removed here and added via JS listener -->
                             <a href="https://calendar.app.google/qtFpe6bA8cr6qPDk8"
                                 target="_blank"
                                 class="px-4 py-2 text-sm border border-[#58a6ff] bg-[#58a6ff] text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 hover:border-blue-600 transition action-button-3d flex items-center space-x-1 flex-grow sm:flex-grow-0"
-                                role="button" aria-label="Schedule a discussion via Google Calendar">
+                                role="button" aria-label="Schedule a discussion via Google Calendar"
+                                id="scheduleDiscussionLink">
                                 <!-- Calendar Icon SVG -->
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 <span>Schedule a discussion</span>
@@ -827,7 +847,7 @@
         <section id="top-right-fabs" class="lg:absolute lg:top-[120px] lg:right-6 z-30 flex flex-col lg:flex-col items-center lg:items-start gap-3 mt-4 lg:mt-0">
              
             <!-- 1. Mind Map FAB (Green accent) - OPEN MODAL -->
-            <!-- UPDATED onclick to use new function -->
+            <!-- ONCLICK handled by JS listener now -->
             <button onclick="window.openMindMapModal()" 
                     class="fab-icon mind-map-fab"
                     aria-label="Open Professional Profile Mind Map">
@@ -844,6 +864,7 @@
             </button>
             
             <!-- 2. Media FAB (Blue accent) - OPEN MODAL -->
+            <!-- ONCLICK handled by JS listener now -->
             <button onclick="window.openMediaModal()" 
                     class="fab-icon media-fab"
                     aria-label="Open Social Media and Video Links">
@@ -854,7 +875,8 @@
             <!-- --- SOCIAL ICONS BELOW THE CONTACT LINE (Matching image reference) --- -->
 
             <!-- 3. GitHub Icon Button -->
-            <a href="https://github.com/Navneet831" target="_blank" class="social-icon-btn" aria-label="View GitHub Profile">
+            <!-- ONCLICK handled by JS listener now -->
+            <a href="https://github.com/Navneet831" target="_blank" class="social-icon-btn" aria-label="View GitHub Profile" id="githubLink">
                 <!-- Authentic GitHub SVG Icon (Source: Official octocat shape) -->
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.463 2 11.974c0 4.417 2.865 8.163 6.843 9.49.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.152-1.107-1.464-1.107-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.027 1.531 1.027.892 1.529 2.341 1.089 2.91.83.092-.644.35-1.089.635-1.336-2.22-.251-4.555-1.111-4.555-4.943 0-1.092.39-1.983 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.28 9.28 0 0112 6.883c.85.004 1.701.114 2.502.336 1.909-1.29 2.747-1.022 2.747-1.022.544 1.372.203 2.386.1 2.638.638.692 1.028 1.583 1.028 2.675 0 3.844-2.336 4.681-4.563 4.935.359.307.678.92.678 1.854 0 1.336-.012 2.417-.012 2.747 0 .267.18.578.688.482C21.137 20.137 24 16.39 24 11.974 24 6.463 19.522 2 14 2h-2z"/>
@@ -902,7 +924,8 @@
                                 
                                 <!-- Reason for Leave Toggle -->
                                 <div class="mt-3">
-                                    <button onclick="toggleReason(this, 'reasonOriana'); gtag('event', 'gap_view', {'event_label': 'Oriana Power Toggle'})" 
+                                    <!-- gtag('event', 'gap_view', {...}) changed to window.trackGTM -->
+                                    <button onclick="toggleReason(this, 'reasonOriana');" 
                                             class="text-sm font-medium text-red-400 hover:text-red-300 focus:outline-none flex items-center"
                                             aria-expanded="false" aria-controls="reasonOriana" aria-label="Toggle reason for leaving Oriana Power Ltd">
                                         <span id="iconOriana" class="mr-1 text-lg leading-none">+</span>
@@ -925,7 +948,8 @@
                                 <p class="text-sm text-gray-400"><b class="text-white">FP&A Automation: Engineered</b> process automation by building <b>Python-based RPA, dashboards, and AI-enabled database access</b>, reducing MIS preparation time and manual effort by 80%.</p>
                                 <!-- Reason for Leave Toggle -->
                                 <div class="mt-3">
-                                    <button onclick="toggleReason(this, 'reasonGrew'); gtag('event', 'gap_view', {'event_label': 'Grew Energy Toggle'})" 
+                                    <!-- gtag('event', 'gap_view', {...}) changed to window.trackGTM -->
+                                    <button onclick="toggleReason(this, 'reasonGrew');" 
                                             class="text-sm font-medium text-red-400 hover:text-red-300 focus:outline-none flex items-center"
                                             aria-expanded="false" aria-controls="reasonGrew" aria-label="Toggle reason for leaving Grew Energy Pvt Ltd">
                                         <span id="iconGrew" class="mr-1 text-lg leading-none">+</span>
@@ -953,7 +977,8 @@
                                 </ul>
                                     <!-- Reason for Leave Toggle -->
                                 <div class="mt-3">
-                                    <button onclick="toggleReason(this, 'reasonOzone'); gtag('event', 'gap_view', {'event_label': 'Ozone Pharma Toggle'})" 
+                                    <!-- gtag('event', 'gap_view', {...}) changed to window.trackGTM -->
+                                    <button onclick="toggleReason(this, 'reasonOzone');" 
                                             class="text-sm font-medium text-red-400 hover:text-red-300 focus:outline-none flex items-center"
                                             aria-expanded="false" aria-controls="reasonOzone" aria-label="Toggle reason for leaving Ozone Pharmaceuticals Ltd">
                                         <span id="iconOzone" class="mr-1 text-lg leading-none">+</span>
@@ -976,7 +1001,8 @@
                                 <p class="text-sm text-gray-400">Mitigated high-risk long pending dues, adhering to NPPA Act guidelines for implant suppliers.</p>
                                     <!-- Reason for Leave Toggle -->
                                 <div class="mt-3">
-                                    <button onclick="toggleReason(this, 'reasonShanti'); gtag('event', 'gap_view', {'event_label': 'Shanti Mukand Toggle'})" 
+                                    <!-- gtag('event', 'gap_view', {...}) changed to window.trackGTM -->
+                                    <button onclick="toggleReason(this, 'reasonShanti');" 
                                             class="text-sm font-medium text-red-400 hover:text-red-300 focus:outline-none flex items-center"
                                             aria-expanded="false" aria-controls="reasonShanti" aria-label="Toggle reason for leaving Shanti Mukand Hospital">
                                         <span id="iconShanti" class="mr-1 text-lg leading-none">+</span>
@@ -1001,7 +1027,8 @@
                                 </ul>
                                     <!-- Reason for Leave Toggle -->
                                 <div class="mt-3">
-                                    <button onclick="toggleReason(this, 'reasonKumar'); gtag('event', 'gap_view', {'event_label': 'Kumar Grover Toggle'})" 
+                                    <!-- gtag('event', 'gap_view', {...}) changed to window.trackGTM -->
+                                    <button onclick="toggleReason(this, 'reasonKumar');" 
                                             class="text-sm font-medium text-red-400 hover:text-red-300 focus:outline-none flex items-center"
                                             aria-expanded="false" aria-controls="reasonKumar" aria-label="Toggle reason for leaving Kumar Grover & Company">
                                         <span id="iconKumar" class="mr-1 text-lg leading-none">+</span>
@@ -1523,17 +1550,67 @@
 
     <!-- Combined and updated JavaScript logic in a single module block -->
     <script type="module">
+        
+        // --- OWNER/SELF-TRACKING FILTER (NEW) ---
+        // Global flag to disable tracking if the session belongs to the site owner
+        window.isMySession = false;
+        
+        // --- Custom GTM Event Pushing Function (Calls gtag directly, checks owner) ---
+        window.trackGTM = function(eventName, eventParams = {}) {
+            if (window.isMySession) {
+                console.log(`[ANALYTICS BLOCKED]: Session flagged as owner. Skipping event: ${eventName}`);
+                return;
+            }
+            if (typeof gtag === 'function') {
+                gtag('event', eventName, eventParams);
+            } else {
+                 console.log(`GTM Event [${eventName}] Blocked: gtag not loaded.`);
+            }
+        };
+
         // --- Firebase Setup (Minimal Auth for compliance) ---
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        
+        // Hardcoded Owner ID for Canvas environment (This should be replaced by your actual, known ID)
+        const OWNER_UID = 'NAVNEET_CHAUDHARY_OWNER_ID'; // Placeholder: Replace with your actual UID from Firebase/GTM after first login
+        
         if (Object.keys(firebaseConfig).length > 0) {
             try {
                 const app = initializeApp(firebaseConfig);
                 const auth = getAuth(app);
-                // Auth token logic is correctly omitted for this non-data app, defaulting to anonymous sign-in
-                signInAnonymously(auth).catch(e => console.error("Firebase Auth Error (Anonymous):", e));
+                
+                // 1. Check local storage first
+                const storedOwnerStatus = localStorage.getItem('isOwnerSession');
+                if (storedOwnerStatus === 'true') {
+                    window.isMySession = true;
+                    console.log("Analytics: Identified as Owner (Local Storage). Tracking disabled.");
+                }
+
+                // 2. Sign in anonymously to get a UID
+                signInAnonymously(auth).then(() => {
+                    onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            const currentUid = user.uid;
+                            
+                            // Check if this is the hardcoded owner ID OR if a flag was set in a previous session
+                            if (currentUid === OWNER_UID || localStorage.getItem('isOwnerSession') === 'true') {
+                                window.isMySession = true;
+                                localStorage.setItem('isOwnerSession', 'true');
+                                console.log(`Analytics: Identified as Owner (UID: ${currentUid}). Tracking disabled.`);
+                            } else {
+                                window.isMySession = false;
+                                localStorage.setItem('isOwnerSession', 'false');
+                                console.log(`Analytics: Identified as Guest (UID: ${currentUid}). Tracking ENABLED.`);
+                            }
+                        }
+                    });
+                }).catch(e => {
+                     // Fallback if sign-in fails
+                     console.error("Firebase Auth Error (Anonymous):", e);
+                });
             } catch(e) {
                  console.error("Firebase Initialization Error:", e);
             }
@@ -1719,6 +1796,7 @@
                 d._children = null;
             }
             update(d);
+            window.trackGTM('mindmap_click', { node_name: d.data.name, action: d.children ? 'expand' : 'collapse' });
         }
 
         function update(source) {
@@ -1874,10 +1952,9 @@
             
             // FIX: Ensure listener is only attached ONCE
             window.addEventListener('resize', resizeAndDraw);
-            gtag('event', 'modal_open', { 'event_category': 'engagement', 'event_label': 'mind_map_viewed' });
         }
 
-        // --- ACHIEVEMENT TAB LOGIC (UNCHANGED) ---
+        // --- ACHIEVEMENT TAB LOGIC (UPDATED TRACKING) ---
         window.openTab = function(evt, tabName) {
             const tabcontent = document.getElementsByClassName("tab-content");
             for (let i = 0; i < tabcontent.length; i++) {
@@ -1899,9 +1976,15 @@
                 evt.currentTarget.setAttribute('aria-selected', 'true');
             }
             document.getElementById('achievementsContainer').scrollTop = 0;
+            
+            // ANONYMIZED TRACKING: Tab Switch
+            window.trackGTM('tab_switch', { 
+                tab_group: 'achievements', 
+                tab_name: tabName 
+            });
         }
         
-        // --- SKILLS TAB LOGIC (UNCHANGED) ---
+        // --- SKILLS TAB LOGIC (UPDATED TRACKING) ---
         window.openSkillsTab = function(evt, tabName) {
             const tabContents = document.getElementsByClassName("skills-tab-content");
             for (let i = 0; i < tabContents.length; i++) {
@@ -1923,9 +2006,15 @@
                 evt.currentTarget.setAttribute('aria-selected', 'true');
             }
             document.getElementById('skillsTabContent').scrollTop = 0;
+            
+            // ANONYMIZED TRACKING: Tab Switch
+             window.trackGTM('tab_switch', { 
+                tab_group: 'skills', 
+                tab_name: tabName 
+            });
         }
         
-        // --- REASON FOR LEAVE LOGIC (UNCHANGED) ---
+        // --- REASON FOR LEAVE LOGIC (UPDATED TRACKING) ---
         window.toggleReason = function(button, reasonId) {
             const reasonElement = document.getElementById(reasonId);
             const iconElement = button.querySelector('span');
@@ -1934,13 +2023,15 @@
             if (isExpanded) {
                 reasonElement.classList.remove('expanded');
                 iconElement.textContent = '+';
+                window.trackGTM('gap_view', { action: 'close', company: reasonId.replace('reason', '') });
             } else {
                 reasonElement.classList.add('expanded');
                 iconElement.textContent = '–';
+                window.trackGTM('gap_view', { action: 'open', company: reasonId.replace('reason', '') });
             }
         }
 
-        // --- CERTIFICATION DATA AND SORTING & FILTERING LOGIC (FIXED SCOPE) ---
+        // --- CERTIFICATION DATA AND SORTING & FILTERING LOGIC (UPDATED TRACKING) ---
         var certifications = [
             // Core Certs (isCoreCert: true)
             { title: 'CA CPT', issuer: 'ICAI', date: 20180101, displayDate: '2018', relevance: 1, priority: 1, domain: 'Finance & Accounts', score: '71.5%', isCoreCert: true }, 
@@ -2028,12 +2119,24 @@
                 }
             });
             window.renderCertifications();
+            
+            // ANONYMIZED TRACKING: Cert Action Sort
+            window.trackGTM('cert_action', { 
+                action_type: 'sort', 
+                value: sortType 
+            });
         }
 
         // FIX: Explicitly attach to window object
         window.filterCertifications = function(domain) {
             currentFilter = domain;
             window.renderCertifications();
+            
+            // ANONYMIZED TRACKING: Cert Action Filter
+            window.trackGTM('cert_action', { 
+                action_type: 'filter', 
+                value: domain 
+            });
         }
 
         // FIX: Explicitly attach to window object
@@ -2313,6 +2416,9 @@
             if (isProcessing) return;
 
             setThinkingState();
+            
+            // ANONYMIZED TRACKING: Pitch Played click
+            window.trackGTM('button_click', { event_label: 'pitch_played' });
 
             try {
                 const pitchText = FINAL_ELEVATOR_PITCH;
@@ -2370,7 +2476,7 @@
         // Function to open media modal and start video
         const CURRENT_VIDEO_EMBED_URL = `https://www.youtube.com/embed/videoseries?list=PLEfUln3m0PdhgiQzVE2GM8cwd8WqyfWw2&autoplay=1&rel=0`;
         
-        // --- FIX 1: Modal Open Robustness (Media Modal) ---
+        // --- Modal Open Robustness (Media Modal) ---
         window.openMediaModal = function() {
             document.getElementById('mediaModal').style.display = 'block';
             const youtubeIframe = document.getElementById('youtubeIframe');
@@ -2380,8 +2486,10 @@
                 if (youtubeIframe) {
                     youtubeIframe.src = CURRENT_VIDEO_EMBED_URL;
                 }
-                gtag('event', 'modal_open', { 'event_category': 'engagement', 'event_label': 'media_viewed' });
             }, 50); 
+            // ANONYMIZED TRACKING: Modal Open
+            window.trackGTM('modal_open', { modal_name: 'media_portfolio' });
+            window.trackGTM('fab_click', { fab_type: 'media' });
         }
 
         // Function to close media modal and stop video
@@ -2395,7 +2503,7 @@
         }
         
         // Mind Map Modal Control (Now initializes the integrated D3 map)
-        // --- FIX 2: Modal Open Robustness & D3 Init (Mind Map Modal) ---
+        // --- Modal Open Robustness & D3 Init (Mind Map Modal) ---
         window.openMindMapModal = function() {
             const modal = document.getElementById('mindMapModal');
             modal.style.display = 'block';
@@ -2408,6 +2516,9 @@
                      resizeAndDraw(); // Recalculate layout on subsequent opens
                 }
             }, 50); 
+            // ANONYMIZED TRACKING: Modal Open
+            window.trackGTM('modal_open', { modal_name: 'mind_map' });
+            window.trackGTM('fab_click', { fab_type: 'mindmap' });
         }
 
         // Function to close mind map modal
@@ -2415,19 +2526,91 @@
             document.getElementById('mindMapModal').style.display = 'none';
         }
         
-        // --- Run Initialization on Load ---
-        // FIX: Moved Core Certs and Professional Certs rendering outside of onload
-        // to minimize perceived load time for the Certifications section.
-        const coreCerts = certifications.filter(c => c.isCoreCert === true);
-        window.renderCoreCerts(coreCerts);
-        window.sortCertifications('relevance'); 
+        // --- Intersection Observer for Time-on-Section (>10s) ---
+        const trackingTargets = [
+            { id: 'header', start: null, name: 'hero_section' },
+            { id: 'experienceContent', start: null, name: 'experience' },
+            { id: 'achievementsContainer', start: null, name: 'achievements' }
+        ];
+        
+        const MIN_DURATION_SECONDS = 10; // Only track time > 10s for high-quality engagement
 
-        window.onload = function() {
+        const timeObserver = new IntersectionObserver((entries) => {
+            if (window.isMySession) return;
+            
+            entries.forEach(entry => {
+                const target = trackingTargets.find(t => t.id === entry.target.id);
+                if (!target) return;
+
+                if (entry.isIntersecting) {
+                    target.start = Date.now(); // Element became visible
+                } else if (target.start) {
+                    const durationMs = Date.now() - target.start;
+                    const durationSec = Math.round(durationMs / 1000);
+
+                    if (durationSec >= MIN_DURATION_SECONDS) {
+                        window.trackGTM('time_spent', {
+                            section: target.name,
+                            duration_seconds: durationSec,
+                        });
+                    }
+                    target.start = null; // Reset
+                }
+            });
+        }, {
+            threshold: 0.5 // Trigger if 50% of the element is visible
+        });
+
+        // --- Scroll Depth Tracking (25/50/75/90%) on Experience Section ---
+        const scrollDepths = [25, 50, 75, 90];
+        const trackedDepths = new Set();
+        
+        function checkScrollDepth(sectionId, sectionName) {
+            const element = document.getElementById(sectionId);
+            if (!element) return;
+
+            const rect = element.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            
+            // Calculate how far down the user has scrolled within the element's height
+            const scrolledDepth = Math.min(
+                1, 
+                (viewportHeight - rect.top) / rect.height
+            );
+
+            const scrollPercentage = Math.floor(scrolledDepth * 100);
+
+            for (const depth of scrollDepths) {
+                if (scrollPercentage >= depth && !trackedDepths.has(`${sectionName}_${depth}`)) {
+                    trackedDepths.add(`${sectionName}_${depth}`);
+                    window.trackGTM('scroll_depth', {
+                        section: sectionName,
+                        percent: depth
+                    });
+                }
+            }
+        }
+        
+        function handleScroll() {
+            if (window.isMySession) return;
+            // Only track Experience Content and Achievements container for scroll depth
+            checkScrollDepth('experienceContent', 'experience');
+            checkScrollDepth('achievementsContainer', 'achievements');
+        }
+
+
+        // --- Run Initialization on Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Core Init Logic
+            const coreCerts = certifications.filter(c => c.isCoreCert === true);
+            window.renderCoreCerts(coreCerts);
+            window.sortCertifications('relevance'); 
+            window.initZenith();
             
             document.getElementById('filterDomain').value = 'All'; 
             
             var achievementButton = document.querySelector('.flex:has(button[onclick^="window.openTab"]) .tab-button:first-child');
-            // Ensure button exists before clicking it to open the default tab
             if (achievementButton) {
                 window.openTab({ currentTarget: achievementButton }, 'professional');
             }
@@ -2436,9 +2619,6 @@
                 window.openSkillsTab({ currentTarget: functionalSkillsButton }, 'functionalSkills');
              }
             
-            // Pitch Init
-            window.initZenith();
-
             // Close modal on outside click (best practice)
             window.onclick = function(event) {
                 const mindMapModal = document.getElementById('mindMapModal');
@@ -2451,7 +2631,70 @@
                     window.closeMediaModal(); 
                 }
             }
-        };
+
+            
+            // 2. Set up Time-on-Section Observers
+            const heroSection = document.querySelector('header');
+            const exp = document.getElementById('experienceContent');
+            const ach = document.getElementById('achievementsContainer');
+            
+            if (heroSection) timeObserver.observe(heroSection);
+            if (exp) timeObserver.observe(exp);
+            if (ach) timeObserver.observe(ach);
+            
+            // 3. Set up Scroll Depth Listener
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll(); // Initial check for scroll depth
+            
+            
+            // 4. ANONYMIZED CLICK/CTA RE-MAPPING
+            
+            // Resume Download
+            const resumeButton = document.getElementById('downloadResumeButton');
+            if (resumeButton) {
+                resumeButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.trackGTM('button_click', { event_label: 'resume_download', link_url: resumeButton.href });
+                    setTimeout(() => window.location.href = resumeButton.href, 100);
+                });
+            }
+            
+            // Schedule Discussion
+            const scheduleButton = document.getElementById('scheduleDiscussionLink');
+            if (scheduleButton) {
+                scheduleButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.trackGTM('button_click', { event_label: 'schedule_discussion', link_url: scheduleButton.href });
+                    setTimeout(() => window.location.href = scheduleButton.href, 100);
+                // Note: The 'schedule a discussion' link has id='scheduleDiscussionLink' in the HTML, replacing the querySelector logic.
+                });
+            }
+
+            // LinkedIn Click Tracking
+            const linkedinButton = document.getElementById('linkedinButton');
+             if (linkedinButton) {
+                linkedinButton.addEventListener('click', () => {
+                    window.trackGTM('social_click', { social_network: 'linkedin' });
+                });
+            }
+            
+            // Portfolio Link (Outbound)
+            const portfolioLink = document.getElementById('portfolioLink');
+            if (portfolioLink) {
+                portfolioLink.addEventListener('click', () => {
+                    window.trackGTM('outbound_click', { link_url: portfolioLink.href });
+                });
+            }
+            
+            // GitHub Link (Outbound)
+            const githubLink = document.getElementById('githubLink');
+            if (githubLink) {
+                 githubLink.addEventListener('click', () => {
+                    window.trackGTM('outbound_click', { link_url: githubLink.href });
+                });
+            }
+            
+        });
     </script>
 
     <!-- Google Tag Manager (noscript) -->
