@@ -313,9 +313,10 @@
                                 <span class="text-sm text-text-secondary group-hover:text-white font-medium">Phone</span>
                                 <span class="text-sm font-mono text-white">+91 98733 94075</span>
                             </a>
-                            <a href="https://calendar.app.google/qtFpe6bA8cr6qPDk8" target="_blank" class="btn-3d flex items-center justify-center gap-2 p-3 rounded-lg bg-slate-800 text-white text-xs font-bold shadow-3d-slate hover:bg-slate-700 mt-2 uppercase tracking-wide">
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                Schedule Discussion
+                            <!-- UPDATED BUTTON STYLE -->
+                            <a href="https://calendar.app.google/qtFpe6bA8cr6qPDk8" target="_blank" class="btn-3d flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-accent-secondary text-white text-sm font-bold shadow-3d-secondary hover:brightness-110 mt-3 w-full">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                <span>SCHEDULE DISCUSSION</span>
                             </a>
                         </div>
                     </div>
@@ -823,7 +824,7 @@
             const pitchEl = document.getElementById('pitchStatus');
             
             // Fetch from 'About me' sheet, expanded range B1:B10 for safety
-            // B1 = Pitch, B3 = Journey
+            // B1 = Pitch, B2 = Journey
             const queryUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=About%20me&range=B1:B10`;
 
             try {
@@ -838,13 +839,13 @@
 
                 if (json.table && json.table.rows) {
                     // Row 0 = B1 (Pitch)
-                    // Row 2 = B3 (Journey)
+                    // Row 1 = B2 (Journey)
                     const pitchVal = json.table.rows[0]?.c[0]?.v;
                     
                     // Safety check for Journey: Ensure array has enough rows
                     let journeyVal = null;
-                    if(json.table.rows.length > 2) {
-                        journeyVal = json.table.rows[2]?.c[0]?.v;
+                    if(json.table.rows.length > 1) {
+                        journeyVal = json.table.rows[1]?.c[0]?.v;
                     }
 
                     // 1. Update Pitch
@@ -859,7 +860,7 @@
                         // Simple formatting: convert newlines to paragraphs or breaks
                         journeyContentEl.innerHTML = journeyVal.split('\n').map(p => `<p class="mb-2">${p}</p>`).join('');
                     } else {
-                        journeyContentEl.innerHTML = `<span class="text-accent-alert">Journey content not found in Cell B3.</span><br><span class="text-xs text-text-muted">Please check sheet: "About me" > Cell B3.</span>`;
+                        journeyContentEl.innerHTML = `<span class="text-accent-alert">Journey content not found in Cell B2.</span><br><span class="text-xs text-text-muted">Please check sheet: "About me" > Cell B2.</span>`;
                     }
                 }
             } catch (error) {
